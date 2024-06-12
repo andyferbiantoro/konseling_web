@@ -1,7 +1,7 @@
 <aside id="sidebar-wrapper">
   <div class="sidebar-brand">
     <div class="login-brand">
-      <img src="public/assets/img/ubi_logo.png" alt="logo" width="60" ><br>
+      <img src="public/assets/img/logo_smp.png" alt="logo" width="50" ><br>
     </div>
   </div><br><br>
    <!--  <div class="sidebar-brand sidebar-brand-sm">

@@ -61,6 +61,7 @@ Route::middleware(['auth', 'guru_konseling'])->group(function () {
 	//pelanggaran
 	Route::get('/pelanggaran', [GuruKonselingController::class, 'pelanggaran'])->name('pelanggaran');
 	Route::get('/lihat_pelanggaran{id}', [GuruKonselingController::class, 'lihat_pelanggaran'])->name('lihat_pelanggaran');
+	Route::get('/cetak_surat_peringatan{id}', [GuruKonselingController::class, 'cetak_surat_peringatan'])->name('cetak_surat_peringatan');
 	Route::post('/pelanggaran_add', [GuruKonselingController::class, 'pelanggaran_add'])->name('pelanggaran_add');
 	Route::post('/pelanggaran_update/{id}', [GuruKonselingController::class, 'pelanggaran_update'])->name('pelanggaran_update');
 	Route::post('/pelanggaran_delete/{id}', [GuruKonselingController::class, 'pelanggaran_delete'])->name('pelanggaran_delete');

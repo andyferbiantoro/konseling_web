@@ -14,16 +14,15 @@ Lihat Pelanggaran Siswa
     <div class="card-body">
       @foreach($data_siswa as $nama)
       <h2 class="primary">Lihat Pelanggaran {{$nama->nama}}, Total Point : {{$total_point}}</h2><hr>
-      @endforeach
       <a href="{{ route('pelanggaran') }}"><button type="button" class="btn btn-danger btn-sm"><i class="fas fa-undo-alt"></i> Kembali</button></a>
       <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalTambah"><i class="fas fa-plus"></i>
         Tambah Pelanggaran
       </button>
       @if($total_point >= 50)
-      <a href="{{ route('pelanggaran') }}"><button type="button" class="btn btn-warning btn-sm"><i class="fas fa-file"></i> Cetak Surat Peringatan</button></a>
+      <a href=""><button type="button" onClick="PopupCenter('{{ route('cetak_surat_peringatan',$nama->id) }}')" class="btn btn-warning btn-sm"><i class="fas fa-file"></i> Cetak Surat Peringatan</button></a>
       @endif
       <br><br>
-
+@endforeach
 
       @if (session('success'))
       <div class="alert alert-success">
@@ -219,6 +218,15 @@ Lihat Pelanggaran Siswa
   function formSubmit() {
     $("#deleteForm").submit();
   }
+</script>
+<script type="text/javascript">
+  function PopupCenter(pageURL){
+            var w = screen.width - (screen.width)/5;
+            var h = screen.height - (screen.height)/3 ;
+            var left = (screen.width/10);
+            var top = (screen.height/6);
+      window.open (pageURL, '', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, resizable=yes, width='+w+', height='+h+', top='+top+', left='+left);
+        };  
 </script>
 
 

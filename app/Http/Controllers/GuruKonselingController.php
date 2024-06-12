@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Validator;
 class GuruKonselingController extends Controller
 {
     //
-    public function guru_konseling_dashboard()
+	public function guru_konseling_dashboard()
 	{
 		
 		return view('guru_konseling.index');
@@ -29,7 +29,7 @@ class GuruKonselingController extends Controller
 //==================================================================================================================
 	public function kelas()
 	{
-	    $kelas = Kelas::orderBy('id','DESC')->get();
+		$kelas = Kelas::orderBy('id','DESC')->get();
 
 		return view('guru_konseling.kelas',compact('kelas'));
 	}
@@ -80,10 +80,10 @@ class GuruKonselingController extends Controller
 	//==================================================================================================================
 	public function siswa()
 	{
-	   
-	    $data_kelas = Kelas::orderBy('id','DESC')->get();
 
-	    $siswa = DB::table('siswas')
+		$data_kelas = Kelas::orderBy('id','DESC')->get();
+
+		$siswa = DB::table('siswas')
 		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
 		->select('siswas.*', 'kelas.nama_kelas')
 		->orderBy('siswas.id', 'DESC')
@@ -141,12 +141,12 @@ class GuruKonselingController extends Controller
 	//==================================================================================================================
 	public function pelanggaran()
 	{
-	   
-	    $data_kelas = Kelas::orderBy('id','DESC')->get();
-	    // $data_siswa = Siswa::orderBy('id','DESC')->get();
-	    $data_point = Point::orderBy('id','DESC')->get();
 
-	    $data_siswa = DB::table('siswas')
+		$data_kelas = Kelas::orderBy('id','DESC')->get();
+	    // $data_siswa = Siswa::orderBy('id','DESC')->get();
+		$data_point = Point::orderBy('id','DESC')->get();
+
+		$data_siswa = DB::table('siswas')
 		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
 		->select('siswas.*', 'kelas.nama_kelas')
 		->orderBy('siswas.id', 'DESC')
@@ -165,11 +165,11 @@ class GuruKonselingController extends Controller
 
 	public function lihat_pelanggaran($id)
 	{
-	   
-	    $data_siswa = Siswa::where('id',$id)->get();
-	    $data_point = point::get();
 
-	    $total_point = DB::table('pelanggarans')
+		$data_siswa = Siswa::where('id',$id)->get();
+		$data_point = point::get();
+
+		$total_point = DB::table('pelanggarans')
 		->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
 		->join('points', 'pelanggarans.id_point', '=', 'points.id')
 		->select('pelanggarans.*','siswas.id', 'points.point_pelanggaran')
@@ -183,7 +183,7 @@ class GuruKonselingController extends Controller
 		->join('points', 'pelanggarans.id_point', '=', 'points.id')
 		->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran', 'points.point_pelanggaran')
 		->where('pelanggarans.id_siswa',$id)
-		->orderBy('siswas.id', 'DESC')
+		->orderBy('pelanggarans.id', 'DESC')
 		->get();
 		// return $total_point;
 		
@@ -231,14 +231,36 @@ class GuruKonselingController extends Controller
 		$delete->delete();
 		return redirect()->back()->with('success', 'Pelanggaran Berhasil Dihapus');
 	}
+
+	public function cetak_surat_peringatan($id)
+	{
+
+		$pelanggaran_siswa = DB::table('pelanggarans')
+		->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+		->join('points', 'pelanggarans.id_point', '=', 'points.id')
+		->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran', 'points.point_pelanggaran')
+		->where('pelanggarans.id_siswa',$id)
+		->orderBy('siswas.id', 'DESC')
+		->get();
+
+//return $sertifikat;
+		// view()->share('pelanggaran_siswa', $pelanggaran_siswa);
+
+		// $pdf = PDF::loadview('guru_konseling.pelanggaran.surat_peringatan', ['pelanggaran_siswa' => $pelanggaran_siswa])->setPaper('A4','potrait');
+
+		// return $pdf->stream('surat_peringatan.pdf');
+
+		return view('guru_konseling.pelanggaran.surat_peringatan',compact('pelanggaran_siswa'));
+
+	}
 	
 
 	//==================================================================================================================
 	public function point()
 	{
-	   
-	    $data_point = Point::orderBy('id','DESC')->get();
-	  
+
+		$data_point = Point::orderBy('id','DESC')->get();
+
 
 		return view('guru_konseling.point',compact('data_point'));
 	}
