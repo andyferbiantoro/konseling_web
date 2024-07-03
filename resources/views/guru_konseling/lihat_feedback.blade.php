@@ -91,11 +91,11 @@ Lihat Feedback Siswa
         <thead>
           <tr>
 
-            <th><span class="badge badge-danger">Sangat Buruk</span></th>
-            <th><span class="badge badge-warning">Buruk</span></th>
-            <th><span class="badge badge-info">Cukup Baik</span></th>
-            <th><span class="badge badge-primary">Baik</span></th>
-            <th><span class="badge badge-success">Sangat Baik</span></th>
+            <th><br><img src="public/assets/img/sangat_buruk.png" alt="logo" width="50" ><br><br><span class="badge badge-danger">Sangat Buruk</span><br></th>
+            <th><br><img src="public/assets/img/buruk.png" alt="logo" width="50" ><br><br><span class="badge badge-warning">Buruk</span></th>
+            <th><br><img src="public/assets/img/cukup_baik.png" alt="logo" width="50" ><br><br><span class="badge badge-info">Cukup Baik</span></th>
+            <th><br><img src="public/assets/img/baik.png" alt="logo" width="50" ><br><br><span class="badge badge-primary">Baik</span></th>
+            <th><br><img src="public/assets/img/sangat_baik.png" alt="logo" width="50" ><br><br><span class="badge badge-success">Sangat Baik</span></th>
 
             <th style="display: none;">hidden</th>
           </tr>
