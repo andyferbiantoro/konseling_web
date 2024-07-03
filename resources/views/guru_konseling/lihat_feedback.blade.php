@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Kelola Siswa
+Lihat Feedback Siswa
 @endsection
 
 
@@ -10,12 +10,10 @@ Kelola Siswa
 <div class="row">
  <div class="col-lg-12">
   <div class="card">
-    
+
     <div class="card-body">
-      <h2 class="primary">Data Siswa</h2><hr>
-      <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalTambah"><i class="fas fa-plus"></i>
-        Tambah Siswa
-      </button><br><br>
+      <h2 class="primary">Data Feedback Siswa</h2><hr>
+
 
 
       @if (session('success'))
@@ -35,43 +33,106 @@ Kelola Siswa
             <tr>
               <th>No</th>
               <th>Nama Siswa</th>
-              <th>Nomor Induk Siswa</th>
-              <th>Alamat Siswa</th>
               <th>Kelas</th>
-              <th>Opsi</th>
+              <th>Feedback</th>
               <th style="display: none;">hidden</th>
             </tr>
           </thead>
           <tbody>
             @php $no=1 @endphp
-            @foreach($siswa as $data)
+            @foreach($feedback as $data)
             <tr>
               <td>{{$no++}}</td>
               <td>{{$data->nama}}</td>
-              <td>{{$data->nis}}</td>
-              <td>{{$data->alamat}}</td>
               <td>{{$data->nama_kelas}}</td>
-              <td>
-                <button class="btn btn-warning btn-sm icon-file menu-icon edit" title="Edit">Edit</button>
+              @if($data->isi_feedback == 'Sangat Buruk')
+              <td><span class="badge badge-danger">Sangat Buruk</span></td>
+              @elseif($data->isi_feedback == 'Buruk')
+              <td><span class="badge badge-warning">Buruk</span></td>
+              @elseif($data->isi_feedback == 'Cukup Baik')
+              <td><span class="badge badge-info">Cukup Baik</span></td>
+              @elseif($data->isi_feedback == 'Baik')
+              <td><span class="badge badge-primary">Baik</span></td>
+              @elseif($data->isi_feedback == 'Sangat Baik')
+              <td><span class="badge badge-success">Sangat Baik</span></td>
+              @endif
 
-                <a href="#" data-toggle="modal" onclick="deleteData({{$data->id}})" data-target="#DeleteModal">
-                  <button class="btn btn-danger btn-sm"  title="Hapus">Hapus</button>
-
-                </td>
-
-
-
-                <td style="display: none;">{{$data->id}}</td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+              <td style="display: none;">{{$data->id}}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
       </div>
+    </div>
 
-      <!--  <button class="btn btn-success fas fa-plus fa-2a"></button> -->
+    <!--  <button class="btn btn-success fas fa-plus fa-2a"></button> -->
+  </div>
+
+
+
+  <div class="card-body">
+    <h2 class="primary">Jumlah Feedback Siswa</h2><hr>
+    
+
+
+    @if (session('success'))
+    <div class="alert alert-success">
+      {{ session('success') }}
+    </div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">
+      {{ session('error') }}
+    </div>
+    @endif
+    <div class="text-center" >
+     <div class="table-responsive">
+      <table id="dataTable" class="table table-striped" style="width:100%">
+        <thead>
+          <tr>
+
+            <th><span class="badge badge-danger">Sangat Buruk</span></th>
+            <th><span class="badge badge-warning">Buruk</span></th>
+            <th><span class="badge badge-info">Cukup Baik</span></th>
+            <th><span class="badge badge-primary">Baik</span></th>
+            <th><span class="badge badge-success">Sangat Baik</span></th>
+
+            <th style="display: none;">hidden</th>
+          </tr>
+        </thead>
+        <tbody>
+          @php $no=1 @endphp
+          @foreach($feedback as $data)
+          <tr>
+
+            <td>{{$feedback_sangat_buruk}} Siswa</td>
+            <td>{{$feedback_buruk}} Siswa</td>
+            <td>{{$feedback_cukup_baik}} Siswa</td>
+            <td>{{$feedback_baik}} Siswa</td>
+            <td>{{$feedback_sangat_baik}} Siswa</td>
+            <td style="display: none;">{{$data->id}}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
   </div>
+
+
+  <div class="table-responsive">
+    <div class="table table-striped">
+      <tr>
+        <th>Jumlah Total Feedback Siswa</th>
+        <th>:</th>
+        <td><span class="badge badge-dark">{{$total_jumlah_feedback}} Feedback</span></td>
+      </tr> 
+    </div>
+  </div>
+
+
+  <!--  <button class="btn btn-success fas fa-plus fa-2a"></button> -->
+</div>
+</div>
 </div>
 </div>
 
@@ -85,40 +146,17 @@ Kelola Siswa
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Admin</h5>
+        <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Kelas</h5>
       </div>
       <div class="modal-body">
-       <form method="post" action="{{route('siswa_add')}}" enctype="multipart/form-data">
+       <form method="post" action="{{route('kelas_add')}}" enctype="multipart/form-data">
 
         {{csrf_field()}}
 
         <div class="form-group">
-          <label for="nama">Nama Siswa</label>
-          <input type="text" class="form-control" id="nama" name="nama"  required=""></input>
+          <label for="nama_kelas">Nama Kelas</label>
+          <input type="text" class="form-control" id="nama_kelas" name="nama_kelas"  required=""></input>
         </div>
-
-        <div class="form-group">
-          <label for="nis">Nomor Induk Siswa</label>
-          <input type="text" class="form-control" id="nis" name="nis"  required=""></input>
-        </div>
-
-        <div class="form-group">
-          <label for="alamat">Alamat Siswa</label>
-          <input type="text" class="form-control" id="alamat" name="alamat"  required=""></input>
-        </div>
-
-        <div class="form-group form-success">
-          <label>Pilh Kelas</label>
-          <select name="id_kelas" class="form-control" required="">
-            <option selected disabled> -- Pilih Kelas -- </option>
-            @foreach($data_kelas as $data)
-            <option value="{{$data->id}}">{{$data->nama_kelas}}</option>
-            @endforeach
-          </select>
-          <span class="form-bar"></span>
-        </div>
-
-
 
 
         <div class="form-group">
@@ -147,11 +185,10 @@ Kelola Siswa
 <div id="updateInformasi" class="modal fade" role="dialog">
   <div class="modal-dialog">
    <!--Modal content-->
-    
    <form action="" id="updateInformasiform" method="post" enctype="multipart/form-data">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Anda yakin ingin memperbarui data siswa ini ?</h5>
+        <h5 class="modal-title">Anda yakin ingin memperbarui data kelas ini ?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -161,30 +198,10 @@ Kelola Siswa
         {{ method_field('POST') }}
 
         <div class="form-group">
-          <label for="nama">Nama Siswa</label>
-          <input type="text" class="form-control" id="nama_update" name="nama"  required=""></input>
+          <label for="nama_kelas">Nama Kelas</label>
+          <input type="text" class="form-control" id="nama_kelas_update" name="nama_kelas"  required=""></input>
         </div>
 
-        <div class="form-group">
-          <label for="nis">Nomor Induk Siswa</label>
-          <input type="text" class="form-control" id="nis_update" name="nis"  required=""></input>
-        </div>
-
-        <div class="form-group">
-          <label for="alamat">Nama Kelas</label>
-          <input type="text" class="form-control" id="alamat_update" name="alamat"  required=""></input>
-        </div>
-
-     
-        <div class="form-group form-success">
-          <label >Kelas</label>
-          <select  name="id_kelas" class="form-control" >
-            @foreach($data_kelas as $k)
-            <option value="{{$k->id}}" {{$data->id_kelas == $k->id ? "selected" : "" }} >{{$k->nama_kelas}}</option>
-            @endforeach
-          </select>
-          <span class="form-bar"></span>
-        </div>
 
         
       </div> 
@@ -194,7 +211,6 @@ Kelola Siswa
       </div>
     </div>
   </form>
- 
 </div>
 </div>
 
@@ -206,7 +222,7 @@ Kelola Siswa
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Hapus Data siswa ?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Hapus Data Kelas ?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -214,7 +230,7 @@ Kelola Siswa
 
           {{ csrf_field() }}
           {{ method_field('POST') }}
-          <p>Apakah anda yakin ingin menghapus data siswa ini ?</p> <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
+          <p>Apakah anda yakin ingin menghapus data kelas ini ?</p> <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
           <button type="submit" name="" class="btn btn-danger float-right mr-2" data-dismiss="modal" onclick="formSubmit()">Hapus</button>
 
         </form>
@@ -230,7 +246,7 @@ Kelola Siswa
 <script type="text/javascript">
   function deleteData(id) {
     var id = id;
-    var url = '{{route("siswa_delete", ":id") }}';
+    var url = '{{route("kelas_delete", ":id") }}';
     url = url.replace(':id', id);
     $("#deleteForm").attr('action', url);
   }
@@ -251,10 +267,9 @@ Kelola Siswa
       }
       var data = table.row($tr).data();
       console.log(data);
-      $('#nama_update').val(data[1]);
-      $('#nis_update').val(data[2]);
-      $('#alamat_update').val(data[3]);
-      $('#updateInformasiform').attr('action','siswa_update/'+ data[6]);
+      $('#nama_kelas_update').val(data[1]);
+      
+      $('#updateInformasiform').attr('action','kelas_update/'+ data[3]);
       $('#updateInformasi').modal('show');
     });
   });

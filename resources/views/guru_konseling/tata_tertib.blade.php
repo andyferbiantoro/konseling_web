@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Kelola Siswa
+Kelola Tata Tertib
 @endsection
 
 
@@ -12,9 +12,9 @@ Kelola Siswa
   <div class="card">
     
     <div class="card-body">
-      <h2 class="primary">Data Siswa</h2><hr>
+      <h2 class="primary">Data Tata Tertib Sekolah</h2><hr>
       <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalTambah"><i class="fas fa-plus"></i>
-        Tambah Siswa
+        Tambah Tata Tertib
       </button><br><br>
 
 
@@ -34,23 +34,17 @@ Kelola Siswa
           <thead>
             <tr>
               <th>No</th>
-              <th>Nama Siswa</th>
-              <th>Nomor Induk Siswa</th>
-              <th>Alamat Siswa</th>
-              <th>Kelas</th>
+              <th>Tata Tertib</th>
               <th>Opsi</th>
               <th style="display: none;">hidden</th>
             </tr>
           </thead>
           <tbody>
             @php $no=1 @endphp
-            @foreach($siswa as $data)
+            @foreach($tata_tertib as $data)
             <tr>
               <td>{{$no++}}</td>
-              <td>{{$data->nama}}</td>
-              <td>{{$data->nis}}</td>
-              <td>{{$data->alamat}}</td>
-              <td>{{$data->nama_kelas}}</td>
+              <td>{{$data->tata_tertib}}</td>
               <td>
                 <button class="btn btn-warning btn-sm icon-file menu-icon edit" title="Edit">Edit</button>
 
@@ -85,40 +79,17 @@ Kelola Siswa
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Admin</h5>
+        <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Tata Tertib</h5>
       </div>
       <div class="modal-body">
-       <form method="post" action="{{route('siswa_add')}}" enctype="multipart/form-data">
+       <form method="post" action="{{route('tata_tertib_add')}}" enctype="multipart/form-data">
 
         {{csrf_field()}}
 
         <div class="form-group">
-          <label for="nama">Nama Siswa</label>
-          <input type="text" class="form-control" id="nama" name="nama"  required=""></input>
+          <label for="tata_tertib">Tata Tertib</label>
+          <input type="text" class="form-control" id="tata_tertib" name="tata_tertib"  required=""></input>
         </div>
-
-        <div class="form-group">
-          <label for="nis">Nomor Induk Siswa</label>
-          <input type="text" class="form-control" id="nis" name="nis"  required=""></input>
-        </div>
-
-        <div class="form-group">
-          <label for="alamat">Alamat Siswa</label>
-          <input type="text" class="form-control" id="alamat" name="alamat"  required=""></input>
-        </div>
-
-        <div class="form-group form-success">
-          <label>Pilh Kelas</label>
-          <select name="id_kelas" class="form-control" required="">
-            <option selected disabled> -- Pilih Kelas -- </option>
-            @foreach($data_kelas as $data)
-            <option value="{{$data->id}}">{{$data->nama_kelas}}</option>
-            @endforeach
-          </select>
-          <span class="form-bar"></span>
-        </div>
-
-
 
 
         <div class="form-group">
@@ -147,11 +118,10 @@ Kelola Siswa
 <div id="updateInformasi" class="modal fade" role="dialog">
   <div class="modal-dialog">
    <!--Modal content-->
-    
    <form action="" id="updateInformasiform" method="post" enctype="multipart/form-data">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Anda yakin ingin memperbarui data siswa ini ?</h5>
+        <h5 class="modal-title">Anda yakin ingin memperbarui data tata tertib ini ?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -161,30 +131,10 @@ Kelola Siswa
         {{ method_field('POST') }}
 
         <div class="form-group">
-          <label for="nama">Nama Siswa</label>
-          <input type="text" class="form-control" id="nama_update" name="nama"  required=""></input>
+          <label for="tata_tertib">Tata Tertib</label>
+          <input type="text" class="form-control" id="tata_tertib_update" name="tata_tertib"  required=""></input>
         </div>
 
-        <div class="form-group">
-          <label for="nis">Nomor Induk Siswa</label>
-          <input type="text" class="form-control" id="nis_update" name="nis"  required=""></input>
-        </div>
-
-        <div class="form-group">
-          <label for="alamat">Nama Kelas</label>
-          <input type="text" class="form-control" id="alamat_update" name="alamat"  required=""></input>
-        </div>
-
-     
-        <div class="form-group form-success">
-          <label >Kelas</label>
-          <select  name="id_kelas" class="form-control" >
-            @foreach($data_kelas as $k)
-            <option value="{{$k->id}}" {{$data->id_kelas == $k->id ? "selected" : "" }} >{{$k->nama_kelas}}</option>
-            @endforeach
-          </select>
-          <span class="form-bar"></span>
-        </div>
 
         
       </div> 
@@ -194,7 +144,6 @@ Kelola Siswa
       </div>
     </div>
   </form>
- 
 </div>
 </div>
 
@@ -206,7 +155,7 @@ Kelola Siswa
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Hapus Data siswa ?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Hapus Data Tata Tertib ?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -214,7 +163,7 @@ Kelola Siswa
 
           {{ csrf_field() }}
           {{ method_field('POST') }}
-          <p>Apakah anda yakin ingin menghapus data siswa ini ?</p> <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
+          <p>Apakah anda yakin ingin menghapus data tata tertib ini ?</p> <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
           <button type="submit" name="" class="btn btn-danger float-right mr-2" data-dismiss="modal" onclick="formSubmit()">Hapus</button>
 
         </form>
@@ -230,7 +179,7 @@ Kelola Siswa
 <script type="text/javascript">
   function deleteData(id) {
     var id = id;
-    var url = '{{route("siswa_delete", ":id") }}';
+    var url = '{{route("tata_tertib_delete", ":id") }}';
     url = url.replace(':id', id);
     $("#deleteForm").attr('action', url);
   }
@@ -251,10 +200,9 @@ Kelola Siswa
       }
       var data = table.row($tr).data();
       console.log(data);
-      $('#nama_update').val(data[1]);
-      $('#nis_update').val(data[2]);
-      $('#alamat_update').val(data[3]);
-      $('#updateInformasiform').attr('action','siswa_update/'+ data[6]);
+      $('#tata_tertib_update').val(data[1]);
+      
+      $('#updateInformasiform').attr('action','tata_tertib_update/'+ data[3]);
       $('#updateInformasi').modal('show');
     });
   });

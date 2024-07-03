@@ -60,4 +60,13 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function isSiswa(){
+
+        if($this->role == 'siswa'){
+
+            return true;
+        }
+        return false;
+    }
 }

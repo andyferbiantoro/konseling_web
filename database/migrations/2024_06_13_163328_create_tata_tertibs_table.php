@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('points', function (Blueprint $table) {
+        Schema::create('tata_tertibs', function (Blueprint $table) {
             $table->id();
+            $table->string('tata_tertib');
+            $table->integer('id_point');
             $table->timestamps();
-            $table->string('nama_pelanggaran');
-            $table->string('kategori_pelanggaran');
-            $table->integer('point_pelanggaran');
-            $table->integer('perihal');
-            
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('points');
+        Schema::dropIfExists('tata_tertibs');
     }
 };

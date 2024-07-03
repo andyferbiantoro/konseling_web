@@ -27,6 +27,8 @@ class AuthController extends Controller
             return redirect()->route('superadmin_dashboard')->with('success', 'Anda Berhasil Login');
         }else if(auth()->user()->role == "guru_konseling"){
             return redirect()->route('guru_konseling_dashboard')->with('success', 'Anda Berhasil Login');
+        }else if(auth()->user()->role == "siswa"){
+            return redirect()->route('siswa_dashboard')->with('success', 'Anda Berhasil Login');
         }
 
     }else{
@@ -46,6 +48,15 @@ class AuthController extends Controller
     }
 
     public function guru_konseling_logout(){
+
+        auth()->logout(); //logout
+        
+        return redirect()->route('login')->with('success', 'Anda Berhasil Logout');
+        
+    }
+
+
+    public function siswa_logout(){
 
         auth()->logout(); //logout
         

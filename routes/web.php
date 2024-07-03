@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\GuruKonselingController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,9 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/', function () {
-	return view('welcome');
-});
+// Route::get('/', function () {
+// 	return view('welcome');
+// });
 
 
 
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'superadmin'])->group(function () {
 });	
 
 
-//Routing untuk role SuperAdmin
+//Routing untuk role Guru KOnseling
 Route::middleware(['auth', 'guru_konseling'])->group(function () {
 	Route::get('/guru_konseling_dashboard', [GuruKonselingController::class, 'guru_konseling_dashboard'])->name('guru_konseling_dashboard');
 
@@ -71,7 +72,49 @@ Route::middleware(['auth', 'guru_konseling'])->group(function () {
 	Route::post('/point_add', [GuruKonselingController::class, 'point_add'])->name('point_add');
 	Route::post('/point_update/{id}', [GuruKonselingController::class, 'point_update'])->name('point_update');
 	Route::post('/point_delete/{id}', [GuruKonselingController::class, 'point_delete'])->name('point_delete');
+
+	//Tata Tertib 
+	Route::get('/tata_tertib', [GuruKonselingController::class, 'tata_tertib'])->name('tata_tertib');
+	Route::post('/tata_tertib_add', [GuruKonselingController::class, 'tata_tertib_add'])->name('tata_tertib_add');
+	Route::post('/tata_tertib_update/{id}', [GuruKonselingController::class, 'tata_tertib_update'])->name('tata_tertib_update');
+	Route::post('/tata_tertib_delete/{id}', [GuruKonselingController::class, 'tata_tertib_delete'])->name('tata_tertib_delete');
+
+
+	//Kelola Tata Tertib
+	Route::get('/tata_tertib_perihal_masuk_sekolah', [GuruKonselingController::class, 'tata_tertib_perihal_masuk_sekolah'])->name('tata_tertib_perihal_masuk_sekolah');
+	Route::get('/tata_tertib_perihal_larangan_siswa', [GuruKonselingController::class, 'tata_tertib_perihal_larangan_siswa'])->name('tata_tertib_perihal_larangan_siswa');
+	Route::get('/tata_tertib_perihal_pakaian_seragam_siswa', [GuruKonselingController::class, 'tata_tertib_perihal_pakaian_seragam_siswa'])->name('tata_tertib_perihal_pakaian_seragam_siswa');
+	Route::get('/tata_tertib_perihal_hak_siswa', [GuruKonselingController::class, 'tata_tertib_perihal_hak_siswa'])->name('tata_tertib_perihal_hak_siswa');
+
+
+	//Feedback Siswa
+	Route::get('/lihat_feedback', [GuruKonselingController::class, 'lihat_feedback'])->name('lihat_feedback');
 	
 
 	Route::get('/guru_konseling_logout', [AuthController::class, 'guru_konseling_logout'])->name('guru_konseling_logout');
 });	
+
+
+//Routing untuk role Siswa
+Route::middleware(['auth', 'siswa'])->group(function () {
+	Route::get('/siswa_dashboard', [SiswaController::class, 'siswa_dashboard'])->name('siswa_dashboard');
+
+	//tata tertib
+	Route::get('/siswa_tata_tertib', [SiswaController::class, 'siswa_tata_tertib'])->name('siswa_tata_tertib');
+
+	//Tata Tertib siswa
+	Route::get('/siswa_tata_tertib_perihal_masuk_sekolah', [SiswaController::class, 'siswa_tata_tertib_perihal_masuk_sekolah'])->name('siswa_tata_tertib_perihal_masuk_sekolah');
+	Route::get('/siswa_tata_tertib_perihal_larangan_siswa', [SiswaController::class, 'siswa_tata_tertib_perihal_larangan_siswa'])->name('siswa_tata_tertib_perihal_larangan_siswa');
+	Route::get('/siswa_tata_tertib_perihal_pakaian_seragam_siswa', [SiswaController::class, 'siswa_tata_tertib_perihal_pakaian_seragam_siswa'])->name('siswa_tata_tertib_perihal_pakaian_seragam_siswa');
+	Route::get('/siswa_tata_tertib_perihal_hak_siswa', [SiswaController::class, 'siswa_tata_tertib_perihal_hak_siswa'])->name('siswa_tata_tertib_perihal_hak_siswa');
+
+	//Feedback
+	Route::get('/feedback', [SiswaController::class, 'feedback'])->name('feedback');
+	Route::get('/feedback_edit{id}', [SiswaController::class, 'feedback_edit'])->name('feedback_edit');
+	Route::post('/feedback_add', [SiswaController::class, 'feedback_add'])->name('feedback_add');
+	Route::post('/feedback_update/{id}', [SiswaController::class, 'feedback_update'])->name('feedback_update');
+	Route::post('/feedback_delete/{id}', [SiswaController::class, 'feedback_delete'])->name('feedback_delete');
+	
+	Route::get('/siswa_logout', [AuthController::class, 'siswa_logout'])->name('siswa_logout');
+});	
+

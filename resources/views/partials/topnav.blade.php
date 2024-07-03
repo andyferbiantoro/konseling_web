@@ -40,6 +40,12 @@
             </a>
             @endif
 
+             @if(Auth::user()->role == "siswa")
+            <a href="{{route('siswa_logout')}}" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+            @endif
+
         </div>
     </li>
 </ul>

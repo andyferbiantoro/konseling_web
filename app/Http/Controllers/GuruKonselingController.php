@@ -9,6 +9,8 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\Point;
 use App\Models\Pelanggaran;
+use App\Models\TataTertib;
+use App\Models\Feedback;
 use File;
 use PDF;
 use DB;
@@ -26,6 +28,7 @@ class GuruKonselingController extends Controller
 		return view('guru_konseling.index');
 	}
 
+//KELAS
 //==================================================================================================================
 	public function kelas()
 	{
@@ -76,7 +79,7 @@ class GuruKonselingController extends Controller
 	}
 
 
-
+	//SISWA
 	//==================================================================================================================
 	public function siswa()
 	{
@@ -92,20 +95,43 @@ class GuruKonselingController extends Controller
 		return view('guru_konseling.siswa',compact('siswa','data_kelas'));
 	}
 
-	public function siswa_add (Request $request)
+	// 
+
+
+	public function siswa_add(Request $request)
 	{
+
+		$cek_nis = Siswa::where('nis', $request->nis)->first();
+		
+
+		if ($cek_nis ) {
+			return redirect()->back()->with('error', 'Tambah Sisa Gagal, Nomor Induk Siswa Sudah terdaftar');
+
+		}else{
+			$data = ([
+				
+				'username' => $request['nis'],
+				'password' => Hash::make('123456'),
+				'role' => 'siswa',
+			]);
+
+
+			$lastid = User::create($data)->id;
+		}
 
 
 		$data_add = new Siswa();
-
+		$data_add->id_user = $lastid;
 		$data_add->nama = $request->input('nama');
+		$data_add->nis = $request->input('nis');
 		$data_add->alamat = $request->input('alamat');
 		$data_add->id_kelas = $request->input('id_kelas');
-		
+
 		$data_add->save();
 
 		return redirect()->back()->with('success', 'Siswa Berhasil Ditambahkan');
 	}
+
 
 
 	public function siswa_update(Request $request, $id)
@@ -116,11 +142,22 @@ class GuruKonselingController extends Controller
 		$input = [
 			'nama' => $request->nama,
 			'alamat' => $request->alamat,
-			// 'id_kelas' => $request->id_kelas,
-			
+			'nis' => $request->nis,
+			// 'id_kelas' => $request->id_kelas,	
 		];
 
 		$data_update->update($input);
+
+
+		$update_username = User::where('id', $data_update->id_user)->first();
+
+		$input = [
+			'username' => $data_update->nis,
+
+		];
+
+		$update_username->update($input);
+
 
 
 		return redirect()->back()->with('success', 'Data Berhasil Diupdate');
@@ -129,7 +166,15 @@ class GuruKonselingController extends Controller
 
 	public function siswa_delete($id)
 	{
+		$get_siswa = Siswa::where('id', $id)->first();
 
+		$delete_user_siswa = User::where('id', $get_siswa->id_user)->first();
+		$delete_user_siswa->delete();
+
+		$delete_pelanggaran = Pelanggaran::where('id_siswa', $get_siswa->id)->get();
+		foreach ($delete_pelanggaran as $key) {
+			$key->delete();
+		}
 
 		$delete = Siswa::findOrFail($id);
 		$delete->delete();
@@ -208,20 +253,20 @@ class GuruKonselingController extends Controller
 
 
 
-	public function pelanggaran_delete_2(Request $request, $id)
-	{
+	// public function pelanggaran_delete_2(Request $request, $id)
+	// {
 
-		$data_update = Pelanggaran::where('id', $id)->first();
+	// 	$data_update = Pelanggaran::where('id', $id)->first();
 
-		$input = [
-			'status' => '0',
-		];
+	// 	$input = [
+	// 		'status' => '0',
+	// 	];
 
-		$data_update->update($input);
+	// 	$data_update->update($input);
 
 
-		return redirect()->back()->with('success', 'Data Berhasil Diupdate');
-	}
+	// 	return redirect()->back()->with('success', 'Data Berhasil Diupdate');
+	// }
 
 
 	public function pelanggaran_delete($id)
@@ -274,6 +319,7 @@ class GuruKonselingController extends Controller
 		$data_add->nama_pelanggaran = $request->input('nama_pelanggaran');
 		$data_add->kategori_pelanggaran = $request->input('kategori_pelanggaran');
 		$data_add->point_pelanggaran = $request->input('point_pelanggaran');
+		$data_add->perihal = $request->input('perihal');
 		
 		$data_add->save();
 
@@ -309,5 +355,111 @@ class GuruKonselingController extends Controller
 		$delete->delete();
 
 		return redirect()->back()->with('success', 'Data Berhasil Dihapus');
+	}
+
+
+	//==================================================================================================================
+	//perihal masuk sekolah
+	public function tata_tertib_perihal_masuk_sekolah()
+	{
+		$masuk_sekolah = Point::orderBy('id','DESC')->where('perihal','Perihal Masuk Sekolah')->get();
+
+		return view('guru_konseling.tata_tertib.masuk_sekolah',compact('masuk_sekolah'));
+	}
+
+
+	//perihal larangan siswa
+	public function tata_tertib_perihal_larangan_siswa()
+	{
+		$larangan_siswa = Point::orderBy('id','DESC')->where('perihal','Perihal Larangan Siswa')->get();
+
+		return view('guru_konseling.tata_tertib.larangan_siswa',compact('larangan_siswa'));
+	}
+
+
+	//perihal pakaian seragam siswa
+	public function tata_tertib_perihal_pakaian_seragam_siswa()
+	{
+		$seragam_siswa = Point::orderBy('id','DESC')->where('perihal','Perihal Pakaian Seragam Siswa')->get();
+
+		return view('guru_konseling.tata_tertib.seragam_siswa',compact('seragam_siswa'));
+	}
+
+
+	//perihal hak siswa
+	public function tata_tertib_perihal_hak_siswa()
+	{
+		$hak_siswa = Point::orderBy('id','DESC')->where('perihal','Perihal Hak Siswa')->get();
+
+		return view('guru_konseling.tata_tertib.hak_siswa',compact('hak_siswa'));
+	}
+
+
+
+	public function tata_tertib_add (Request $request)
+	{
+
+
+		$data_add = new TataTertib();
+
+		$data_add->tata_tertib = $request->input('tata_tertib');
+		
+		$data_add->save();
+
+		return redirect()->back()->with('success', 'tata_tertib Berhasil Ditambahkan');
+	}
+
+
+	public function tata_tertib_update(Request $request, $id)
+	{
+
+		$data_update = TataTertib::where('id', $id)->first();
+
+		$input = [
+			'tata_tertib' => $request->tata_tertib,
+			
+		];
+
+		$data_update->update($input);
+
+
+		return redirect()->back()->with('success', 'Data Berhasil Diupdate');
+	}
+
+
+	public function tata_tertib_delete($id)
+	{
+
+
+		$delete = TataTertib::findOrFail($id);
+		$delete->delete();
+
+		return redirect()->back()->with('success', 'Data Berhasil Dihapus');
+	}
+
+
+// FEEDBACK
+	// ===============================================================================================================================
+
+
+	public function lihat_feedback()
+	{
+
+
+		$feedback = DB::table('feedback')
+		->join('siswas', 'feedback.id_user_siswa', '=', 'siswas.id_user')
+		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+		->select('feedback.*', 'siswas.nama','kelas.nama_kelas')
+		->orderBy('feedback.id', 'DESC')
+		->get();
+
+		$feedback_sangat_buruk = Feedback::where('isi_feedback','Sangat Buruk')->count();
+		$feedback_buruk = Feedback::where('isi_feedback','Buruk')->count();
+		$feedback_cukup_baik = Feedback::where('isi_feedback','Cukup Baik')->count();
+		$feedback_baik = Feedback::where('isi_feedback','Baik')->count();
+		$feedback_sangat_baik = Feedback::where('isi_feedback','Sangat Baik')->count();
+
+		$total_jumlah_feedback = Feedback::count();
+		return view('guru_konseling.lihat_feedback',compact('feedback','feedback_sangat_buruk','feedback_buruk','feedback_cukup_baik','feedback_baik','feedback_sangat_baik','total_jumlah_feedback'));
 	}
 }
