@@ -101,8 +101,7 @@ Lihat Feedback Siswa
           </tr>
         </thead>
         <tbody>
-          @php $no=1 @endphp
-          @foreach($feedback as $data)
+        
           <tr>
 
             <td>{{$feedback_sangat_buruk}} Siswa</td>
@@ -112,7 +111,7 @@ Lihat Feedback Siswa
             <td>{{$feedback_sangat_baik}} Siswa</td>
             <td style="display: none;">{{$data->id}}</td>
           </tr>
-          @endforeach
+      
         </tbody>
       </table>
     </div>
