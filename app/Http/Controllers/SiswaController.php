@@ -97,6 +97,7 @@ class SiswaController extends Controller
 		$data_add = new Feedback();
 
 		$data_add->isi_feedback = $request->input('isi_feedback');
+		$data_add->deskripsi = $request->input('deskripsi');
 		$data_add->id_user_siswa = Auth::user()->id;
 		$data_add->id_user_guru = '6';
 		
@@ -113,6 +114,7 @@ class SiswaController extends Controller
 
 		$input = [
 			'isi_feedback' => $request->isi_feedback,
+			'deskripsi' => $request->deskripsi,
 			
 		];
 

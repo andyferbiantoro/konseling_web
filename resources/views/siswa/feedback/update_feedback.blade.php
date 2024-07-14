@@ -12,7 +12,7 @@ Perbarui Feedback
   <div class="card">
 
     <div class="card-body">
-      
+
       <h2 class="primary">Ubah Penilaian Pada Guru Konseling</h2><hr>
 
       <br><br>
@@ -30,40 +30,40 @@ Perbarui Feedback
       @endif
       <div class="text-center" >
 
-       
+
         <div class="container">
           <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-sm-2">
-              <img src="public/assets/img/sangat_buruk.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/sangat_buruk_star.png" alt="logo" width="30" ><br><br>
               <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#sangat_buruk_modal">
                 Sangat Buruk
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/buruk.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/buruk_star.png" alt="logo" width="60" ><br><br>
               <button type="button" class="btn btn-warning " data-toggle="modal" data-target="#buruk_modal">
                 Buruk
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/cukup_baik.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/cukup_baik_star.png" alt="logo" width="100" ><br><br>
               <button type="button" class="btn btn-info " data-toggle="modal" data-target="#cukup_baik_modal">
                 Cukup Baik
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/baik.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/baik_star.png" alt="logo" width="130" ><br><br>
               <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#baik_modal">
                 Baik
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/sangat_baik.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/sangat_baik_star.png" alt="logo" width="150" ><br><br>
               <button type="button" class="btn btn-success " data-toggle="modal" data-target="#sangat_baik_modal">
                 Sangat Baik
               </button>
@@ -71,7 +71,7 @@ Perbarui Feedback
             <div class="col-sm-1"></div>
           </div>
         </div>
-      
+
 
 
 
@@ -100,7 +100,11 @@ Perbarui Feedback
 
         {{csrf_field()}}
 
-
+        <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required="" value="{{$cek_feedback->deskripsi}}"></textarea>
+        </div>
+        
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Sangat Buruk"></input>
         </div>
@@ -131,6 +135,10 @@ Perbarui Feedback
 
         {{csrf_field()}}
 
+        <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required="" value="{{$cek_feedback->deskripsi}}"></textarea>
+        </div>
 
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Buruk"></input>
@@ -164,6 +172,12 @@ Perbarui Feedback
 
 
         <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required="" value="{{$cek_feedback->deskripsi}}"></textarea>
+        </div>
+
+
+        <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Cukup Baik"></input>
         </div>
 
@@ -193,6 +207,10 @@ Perbarui Feedback
 
         {{csrf_field()}}
 
+        <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required="" value="{{$cek_feedback->deskripsi}}"></textarea>
+        </div>
 
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Baik"></input>
@@ -224,6 +242,10 @@ Perbarui Feedback
 
         {{csrf_field()}}
 
+        <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required="" value="{{$cek_feedback->deskripsi}}"></textarea>
+        </div>
 
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Sangat Baik"></input>

@@ -40,35 +40,35 @@ Kelola Kelas
             <div class="col-sm-5"></div>
             @if($cek_feedback->isi_feedback == 'Sangat Buruk')
             <div class="col-sm-2">
-              <img src="public/assets/img/sangat_buruk.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/sangat_buruk_star.png" alt="logo" width="30" ><br><br>
               <button type="button" class="btn btn-danger">
                 Sangat Buruk
               </button>
             </div>
             @elseif($cek_feedback->isi_feedback == 'Buruk')
             <div class="col-sm-2">
-              <img src="public/assets/img/buruk.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/buruk_star.png" alt="logo" width="60" ><br><br>
               <button type="button" class="btn btn-warning">
                 Buruk
               </button>
             </div>
             @elseif($cek_feedback->isi_feedback == 'Cukup Baik')
             <div class="col-sm-2">
-              <img src="public/assets/img/cukup_baik.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/cukup_baik_star.png" alt="logo" width="100" ><br><br>
               <button type="button" class="btn btn-info">
                 Cukup Baik
               </button>
             </div>
             @elseif($cek_feedback->isi_feedback == 'Baik')
-            <div class="col-sm-2">
-              <img src="public/assets/img/baik.png" alt="logo" width="50" ><br><br>
+            <div class="col-sm-2 text-center">
+              <img src="public/assets/img/baik_star.png" alt="logo" width="130" ><br><br>
               <button type="button" class="btn btn-primary">
                 Baik
               </button>
             </div>
             @elseif($cek_feedback->isi_feedback == 'Sangat Baik')
-            <div class="col-sm-2">
-              <img src="public/assets/img/sangat_baik.png" alt="logo" width="50" ><br><br>
+            <div class="col-sm-2 text-center">
+              <img src="public/assets/img/sangat_baik_star.png" alt="logo" width="150" ><br><br>
               <button type="button" class="btn btn-success">
                 Sangat Baik
               </button>
@@ -84,6 +84,9 @@ Kelola Kelas
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
+              <hr>
+              <h3>Ulasan Kamu</h3>
+              <h5><span class="badge badge-info">{{$cek_feedback->deskripsi}}</span></h5><br>
                <a href="{{route('feedback_edit',$cek_feedback->id)}}"><button class="btn btn-primary btn-sm">Perbarui Feedback</button></a>
             </div>
           </div>
@@ -94,35 +97,35 @@ Kelola Kelas
           <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-sm-2">
-              <img src="public/assets/img/sangat_buruk.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/sangat_buruk_star.png" alt="logo" width="30" ><br><br>
               <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#sangat_buruk_modal">
                 Sangat Buruk
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/buruk.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/buruk_star.png" alt="logo" width="60" ><br><br>
               <button type="button" class="btn btn-warning " data-toggle="modal" data-target="#buruk_modal">
                 Buruk
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/cukup_baik.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/cukup_baik_star.png" alt="logo" width="100" ><br><br>
               <button type="button" class="btn btn-info " data-toggle="modal" data-target="#cukup_baik_modal">
                 Cukup Baik
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/baik.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/baik_star.png" alt="logo" width="130" ><br><br>
               <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#baik_modal">
                 Baik
               </button>
             </div>
 
             <div class="col-sm-2">
-              <img src="public/assets/img/sangat_baik.png" alt="logo" width="50" ><br><br>
+              <img src="public/assets/img/sangat_baik_star.png" alt="logo" width="150" ><br><br>
               <button type="button" class="btn btn-success " data-toggle="modal" data-target="#sangat_baik_modal">
                 Sangat Baik
               </button>
@@ -159,6 +162,10 @@ Kelola Kelas
 
         {{csrf_field()}}
 
+         <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required=""></textarea>
+        </div>
 
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Sangat Buruk"></input>
@@ -190,6 +197,10 @@ Kelola Kelas
 
         {{csrf_field()}}
 
+        <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required=""></textarea>
+        </div>
 
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Buruk"></input>
@@ -221,7 +232,11 @@ Kelola Kelas
 
         {{csrf_field()}}
 
-
+         <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required=""></textarea>
+        </div>
+        
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Cukup Baik"></input>
         </div>
@@ -252,7 +267,11 @@ Kelola Kelas
 
         {{csrf_field()}}
 
-
+         <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required=""></textarea>
+        </div>
+        
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Baik"></input>
         </div>
@@ -283,7 +302,11 @@ Kelola Kelas
 
         {{csrf_field()}}
 
-
+         <div class="form-group">
+          <label for="deskripsi">Berikan Ulasan Kamu</label>
+          <textarea type="text" class="form-control" id="deskripsi" name="deskripsi"  required=""></textarea>
+        </div>
+        
         <div class="form-group">
           <input type="hidden" class="form-control" id="isi_feedback" name="isi_feedback"  required="" value="Sangat Baik"></input>
         </div>
