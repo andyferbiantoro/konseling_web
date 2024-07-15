@@ -85,7 +85,7 @@ Kelola Siswa
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Admin</h5>
+        <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Siswa</h5>
       </div>
       <div class="modal-body">
        <form method="post" action="{{route('siswa_add')}}" enctype="multipart/form-data">

@@ -67,7 +67,6 @@
 
 
 
-<button type="button" onclick="ESFuncPrint('content')">Cetak</button><br><br>
 
 <div class="container" id="content">
       <table class="kop-surat">
@@ -163,6 +162,9 @@
       <br>
       <p>NB : Surat Harap dibawa kembali ke sekolah</p>
     </div>
+        
+<p> <button type="button" onclick="ESFuncPrint('content')" style="background: orange; color: white">Cetak Surat Peringatan</button><br><br></p>
+
 
 
  <script>

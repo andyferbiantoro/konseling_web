@@ -34,6 +34,7 @@ Lihat Feedback Siswa
               <th>No</th>
               <th>Nama Siswa</th>
               <th>Kelas</th>
+              <th>Ulasan Siswa</th>
               <th>Feedback</th>
               <th style="display: none;">hidden</th>
             </tr>
@@ -45,6 +46,7 @@ Lihat Feedback Siswa
               <td>{{$no++}}</td>
               <td>{{$data->nama}}</td>
               <td>{{$data->nama_kelas}}</td>
+              <td>{{$data->deskripsi}}</td>
               @if($data->isi_feedback == 'Sangat Buruk')
               <td><span class="badge badge-danger">Sangat Buruk</span></td>
               @elseif($data->isi_feedback == 'Buruk')
@@ -91,11 +93,11 @@ Lihat Feedback Siswa
         <thead>
           <tr>
 
-            <th><br><img src="public/assets/img/sangat_buruk.png" alt="logo" width="50" ><br><br><span class="badge badge-danger">Sangat Buruk</span><br></th>
-            <th><br><img src="public/assets/img/buruk.png" alt="logo" width="50" ><br><br><span class="badge badge-warning">Buruk</span></th>
-            <th><br><img src="public/assets/img/cukup_baik.png" alt="logo" width="50" ><br><br><span class="badge badge-info">Cukup Baik</span></th>
-            <th><br><img src="public/assets/img/baik.png" alt="logo" width="50" ><br><br><span class="badge badge-primary">Baik</span></th>
-            <th><br><img src="public/assets/img/sangat_baik.png" alt="logo" width="50" ><br><br><span class="badge badge-success">Sangat Baik</span></th>
+            <th><br><img src="public/assets/img/sangat_buruk_star.png" alt="logo" width="30" ><br><br><span class="badge badge-danger">Sangat Buruk</span><br></th>
+            <th><br><img src="public/assets/img/buruk_star.png" alt="logo" width="60" ><br><br><span class="badge badge-warning">Buruk</span></th>
+            <th><br><img src="public/assets/img/cukup_baik_star.png" alt="logo" width="100" ><br><br><span class="badge badge-info">Cukup Baik</span></th>
+            <th><br><img src="public/assets/img/baik_star.png" alt="logo" width="130" ><br><br><span class="badge badge-primary">Baik</span></th>
+            <th><br><img src="public/assets/img/sangat_baik_star.png" alt="logo" width="150" ><br><br><span class="badge badge-success">Sangat Baik</span></th>
 
             <th style="display: none;">hidden</th>
           </tr>
