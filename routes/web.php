@@ -80,6 +80,19 @@ Route::middleware(['auth', 'guru_konseling'])->group(function () {
 	Route::post('/tata_tertib_delete/{id}', [GuruKonselingController::class, 'tata_tertib_delete'])->name('tata_tertib_delete');
 
 
+	//Jadwal Bimbingan 
+	Route::get('/jadwal_bimbingan', [GuruKonselingController::class, 'jadwal_bimbingan'])->name('jadwal_bimbingan');
+	Route::post('/jadwal_bimbingan_add', [GuruKonselingController::class, 'jadwal_bimbingan_add'])->name('jadwal_bimbingan_add');
+	Route::post('/jadwal_bimbingan_update/{id}', [GuruKonselingController::class, 'jadwal_bimbingan_update'])->name('jadwal_bimbingan_update');
+	Route::post('/jadwal_bimbingan_delete/{id}', [GuruKonselingController::class, 'jadwal_bimbingan_delete'])->name('jadwal_bimbingan_delete');
+
+
+	//Bimbingan Siswa
+	Route::get('/bimbingan_siswa{id}', [GuruKonselingController::class, 'bimbingan_siswa'])->name('bimbingan_siswa');
+	Route::post('/bimbingan_siswa_add', [GuruKonselingController::class, 'bimbingan_siswa_add'])->name('bimbingan_siswa_add');
+	Route::post('/bimbingan_siswa_update/{id}', [GuruKonselingController::class, 'bimbingan_siswa_update'])->name('bimbingan_siswa_update');
+	Route::post('/bimbingan_siswa_delete/{id}', [GuruKonselingController::class, 'bimbingan_siswa_delete'])->name('bimbingan_siswa_delete');
+
 	//Kelola Tata Tertib
 	Route::get('/tata_tertib_perihal_masuk_sekolah', [GuruKonselingController::class, 'tata_tertib_perihal_masuk_sekolah'])->name('tata_tertib_perihal_masuk_sekolah');
 	Route::get('/tata_tertib_perihal_larangan_siswa', [GuruKonselingController::class, 'tata_tertib_perihal_larangan_siswa'])->name('tata_tertib_perihal_larangan_siswa');
@@ -114,6 +127,10 @@ Route::middleware(['auth', 'siswa'])->group(function () {
 	Route::post('/feedback_add', [SiswaController::class, 'feedback_add'])->name('feedback_add');
 	Route::post('/feedback_update/{id}', [SiswaController::class, 'feedback_update'])->name('feedback_update');
 	Route::post('/feedback_delete/{id}', [SiswaController::class, 'feedback_delete'])->name('feedback_delete');
+
+
+	//Riwayat Bimbingan
+	Route::get('/riwayat_bimbingan', [SiswaController::class, 'riwayat_bimbingan'])->name('riwayat_bimbingan');
 	
 	Route::get('/siswa_logout', [AuthController::class, 'siswa_logout'])->name('siswa_logout');
 });	

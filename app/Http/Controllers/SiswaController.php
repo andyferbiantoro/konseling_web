@@ -11,6 +11,8 @@ use App\Models\Point;
 use App\Models\Pelanggaran;
 use App\Models\TataTertib;
 use App\Models\Feedback;
+use App\Models\JadwalBimbingan;
+use App\Models\BimbinganSiswa;
 use File;
 use PDF;
 use DB;
@@ -45,6 +47,16 @@ class SiswaController extends Controller
 		->get();
 
 
+		$cek_kelas = DB::table('siswas')
+		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+		->select('siswas.*','kelas.kelas')
+		->where('siswas.id_user',Auth::user()->id)
+		->first();
+
+		$jadwal_kelas_7 = JadwalBimbingan::where('kelas','VII')->first();
+		$jadwal_kelas_8 = JadwalBimbingan::where('kelas','VII')->first();
+		$jadwal_kelas_9 = JadwalBimbingan::where('kelas','VII')->first();
+
 		// $data_siswa = DB::table('pelanggarans')
 		// ->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
 		// ->join('points', 'pelanggarans.id_point', '=', 'points.id')
@@ -53,7 +65,7 @@ class SiswaController extends Controller
 		// ->orderBy('siswas.id', 'DESC')
 		// ->get();
 
-		return view('siswa.index',compact('data_siswa','total_point','pelanggaran_siswa'));
+		return view('siswa.index',compact('data_siswa','total_point','pelanggaran_siswa','cek_kelas','jadwal_kelas_7','jadwal_kelas_8','jadwal_kelas_9'));
 	}
 
 
@@ -172,6 +184,23 @@ class SiswaController extends Controller
 		$hak_siswa = Point::orderBy('id','DESC')->where('perihal','Perihal Hak Siswa')->get();
 
 		return view('siswa.lihat_tata_tertib.hak_siswa',compact('hak_siswa'));
+	}
+
+
+// RIWAYAT BIMBINGAN
+// ====================================================================================================================
+	
+	public function riwayat_bimbingan()
+	{
+		// $bimbingan_siswa = BimbinganSiswa::where('id_siswa', Auth::user()->id)->orderBy('id','DESC')->get();
+		$bimbingan_siswa = DB::table('bimbingan_siswas')
+		->join('siswas', 'bimbingan_siswas.id_siswa', '=', 'siswas.id')
+		->select('bimbingan_siswas.*','siswas.id_user')
+		->where('siswas.id_user', Auth::user()->id)
+		->orderBy('bimbingan_siswas.id', 'DESC')
+		->get();
+
+		return view('siswa.riwayat_bimbingan.index',compact('bimbingan_siswa'));
 	}
 }
 

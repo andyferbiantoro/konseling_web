@@ -10,12 +10,10 @@ Kelola Kelas
 <div class="row">
  <div class="col-lg-12">
   <div class="card">
-    
+
     <div class="card-body">
-      <h2 class="primary">Data Kelas</h2><hr>
-      <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalTambah"><i class="fas fa-plus"></i>
-        Tambah Kelas
-      </button><br><br>
+      <h2 class="primary">Data Jadwal Bimbingan</h2><hr>
+      <a href="{{ route('siswa') }}"><button class="btn btn-info btn-sm"><i class="fas fa-calendar-week"></i> Kelola Bimbingan Siswa</button></a><br><br>
 
 
       @if (session('success'))
@@ -34,24 +32,25 @@ Kelola Kelas
           <thead>
             <tr>
               <th>No</th>
-              <th>Nama Kelas</th>
               <th>Kelas</th>
+              <th>Mulai Hari -</th>
+              <th>- Sampai Hari</th>
               <th>Opsi</th>
               <th style="display: none;">hidden</th>
             </tr>
           </thead>
           <tbody>
             @php $no=1 @endphp
-            @foreach($kelas as $data)
+            @foreach($jadwal_bimbingan as $data)
             <tr>
               <td>{{$no++}}</td>
-              <td>{{$data->nama_kelas}}</td>
               <td>{{$data->kelas}}</td>
+              <td>{{$data->dari_hari}}</td>
+              <td>{{$data->sampai_hari}}</td>
               <td>
-                <button class="btn btn-warning btn-sm icon-file menu-icon edit" title="Edit">Edit</button>
+                <button class="btn btn-warning btn-sm icon-file menu-icon edit" title="Edit">Edit Jadwal</button>
 
-                <a href="#" data-toggle="modal" onclick="deleteData({{$data->id}})" data-target="#DeleteModal">
-                  <button class="btn btn-danger btn-sm"  title="Hapus">Hapus</button>
+                
 
                 </td>
 
@@ -84,14 +83,11 @@ Kelola Kelas
         <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Kelas</h5>
       </div>
       <div class="modal-body">
-       <form method="post" action="{{route('kelas_add')}}" enctype="multipart/form-data">
+       <form method="post" action="{{route('jadwal_bimbingan_add')}}" enctype="multipart/form-data">
 
         {{csrf_field()}}
 
-        <div class="form-group">
-          <label for="nama_kelas">Nama Kelas</label>
-          <input type="text" class="form-control" id="nama_kelas" name="nama_kelas"  required=""></input>
-        </div>
+
 
         <div class="form-group form-success">
           <label>Pilh Kelas</label>
@@ -99,15 +95,45 @@ Kelola Kelas
             <option selected disabled> -- Pilih Kelas -- </option>
             <option value="VII">VII</option>
             <option value="VIII">VIII</option>
-            <option value="IXS">IX</option>
+            <option value="IX">IX</option>
           </select>
           <span class="form-bar"></span>
         </div>
 
 
-        <div class="form-group">
-          <input type="hidden" class="form-control" id="role" name="role"  required="" value="Admin Kasir"></input>
+        <div class="form-group form-success">
+          <label>Dari Hari</label>
+          <select name="dari_hari" class="form-control" required="">
+            <option selected disabled> -- Pilih Hari -- </option>
+            <option value="Senin">Senin</option>
+            <option value="Selasa">Selasa</option>
+            <option value="Rabu">Rabu</option>
+            <option value="Kamis">Kamis</option>
+            <option value="Jum'at">Jum'at</option>
+            <option value="Sabtu">Sabtu</option>
+          </select>
+          <span class="form-bar"></span>
         </div>
+
+
+        <div class="form-group form-success">
+          <label>Sampai Hari</label>
+          <select name="sampai_hari" class="form-control" required="">
+            <option selected disabled> -- Pilih Hari -- </option>
+            <option value="Senin">Senin</option>
+            <option value="Selasa">Selasa</option>
+            <option value="Rabu">Rabu</option>
+            <option value="Kamis">Kamis</option>
+            <option value="Jum'at">Jum'at</option>
+            <option value="Sabtu">Sabtu</option>
+          </select>
+          <span class="form-bar"></span>
+        </div>
+
+        
+
+
+       
 
         
 
@@ -134,7 +160,7 @@ Kelola Kelas
    <form action="" id="updateInformasiform" method="post" enctype="multipart/form-data">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Anda yakin ingin memperbarui data kelas ini ?</h5>
+        <h5 class="modal-title">Anda yakin ingin memperbarui data Jadwal ini ?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -143,9 +169,40 @@ Kelola Kelas
         {{ csrf_field() }}
         {{ method_field('POST') }}
 
-        <div class="form-group">
-          <label for="nama_kelas">Nama Kelas</label>
-          <input type="text" class="form-control" id="nama_kelas_update" name="nama_kelas"  required=""></input>
+        
+      <div class="form-group">
+                  <input type="hidden" class="form-control" id="kelas_update" name="kelas"  required=""></input>
+        </div>
+
+
+
+        <div class="form-group form-success">
+          <label>Dari Hari</label>
+          <select name="dari_hari" class="form-control" required="">
+            <option selected disabled> -- Pilih Hari -- </option>
+            <option value="Senin">Senin</option>
+            <option value="Selasa">Selasa</option>
+            <option value="Rabu">Rabu</option>
+            <option value="Kamis">Kamis</option>
+            <option value="Jum'at">Jum'at</option>
+            <option value="Sabtu">Sabtu</option>
+          </select>
+          <span class="form-bar"></span>
+        </div>
+
+
+        <div class="form-group form-success">
+          <label>Sampai Hari</label>
+          <select name="sampai_hari" class="form-control" required="">
+            <option selected disabled> -- Pilih Hari -- </option>
+            <option value="Senin">Senin</option>
+            <option value="Selasa">Selasa</option>
+            <option value="Rabu">Rabu</option>
+            <option value="Kamis">Kamis</option>
+            <option value="Jum'at">Jum'at</option>
+            <option value="Sabtu">Sabtu</option>
+          </select>
+          <span class="form-bar"></span>
         </div>
 
 
@@ -213,9 +270,9 @@ Kelola Kelas
       }
       var data = table.row($tr).data();
       console.log(data);
-      $('#nama_kelas_update').val(data[1]);
+      $('#kelas_update').val(data[1]);
       
-      $('#updateInformasiform').attr('action','kelas_update/'+ data[3]);
+      $('#updateInformasiform').attr('action','jadwal_bimbingan_update/'+ data[5]);
       $('#updateInformasi').modal('show');
     });
   });

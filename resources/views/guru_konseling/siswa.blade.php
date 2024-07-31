@@ -57,6 +57,7 @@ Kelola Siswa
                 <a href="#" data-toggle="modal" onclick="deleteData({{$data->id}})" data-target="#DeleteModal">
                   <button class="btn btn-danger btn-sm"  title="Hapus">Hapus</button>
 
+                   <a href="{{route('bimbingan_siswa',$data->id)}}"><button class="btn btn-info btn-sm"><i class="fas fa-exclamation-circle"></i> Lihat bimbingan</button></a>
                 </td>
 
 

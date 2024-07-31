@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Kelola Kelas
+Kelola Bimbingan Siswa
 @endsection
 
 
@@ -12,9 +12,11 @@ Kelola Kelas
   <div class="card">
     
     <div class="card-body">
-      <h2 class="primary">Data Kelas</h2><hr>
+      <h2 class="primary">Data Bimbingan Siswa</h2><hr>
+       <a href="{{ route('siswa') }}"><button class="btn btn-danger btn-sm"><i class="fas fa-undo-alt"></i>  Kembali</button></a>
+
       <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalTambah"><i class="fas fa-plus"></i>
-        Tambah Kelas
+        Tambah Bimbingan
       </button><br><br>
 
 
@@ -34,19 +36,23 @@ Kelola Kelas
           <thead>
             <tr>
               <th>No</th>
-              <th>Nama Kelas</th>
+              <th>Nama Siswa</th>
               <th>Kelas</th>
+              <th>Isi Bimbingan</th>
+              <th>Waktu Bimbingan</th>
               <th>Opsi</th>
               <th style="display: none;">hidden</th>
             </tr>
           </thead>
           <tbody>
             @php $no=1 @endphp
-            @foreach($kelas as $data)
+            @foreach($bimbingan_siswa as $data)
             <tr>
               <td>{{$no++}}</td>
+              <td>{{$data->nama}}</td>
               <td>{{$data->nama_kelas}}</td>
-              <td>{{$data->kelas}}</td>
+              <td>{{$data->isi_bimbingan}}</td>
+              <td>{{date("j F Y, H:i ", strtotime($data->updated_at))}} WIB</td>
               <td>
                 <button class="btn btn-warning btn-sm icon-file menu-icon edit" title="Edit">Edit</button>
 
@@ -81,34 +87,24 @@ Kelola Kelas
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myLargeModalLabel">Tambah Data Kelas</h5>
+        <h5 class="modal-title" id="myLargeModalLabel">Tambah Bimbingan Siswa</h5>
       </div>
       <div class="modal-body">
-       <form method="post" action="{{route('kelas_add')}}" enctype="multipart/form-data">
+       <form method="post" action="{{route('bimbingan_siswa_add')}}" enctype="multipart/form-data">
 
         {{csrf_field()}}
 
         <div class="form-group">
-          <label for="nama_kelas">Nama Kelas</label>
-          <input type="text" class="form-control" id="nama_kelas" name="nama_kelas"  required=""></input>
-        </div>
-
-        <div class="form-group form-success">
-          <label>Pilh Kelas</label>
-          <select name="kelas" class="form-control" required="">
-            <option selected disabled> -- Pilih Kelas -- </option>
-            <option value="VII">VII</option>
-            <option value="VIII">VIII</option>
-            <option value="IXS">IX</option>
-          </select>
-          <span class="form-bar"></span>
+          <label for="isi_bimbingan">Isi Bimbingan</label>
+          <textarea type="text" class="form-control" id="isi_bimbingan" name="isi_bimbingan" required=""></textarea>
         </div>
 
 
         <div class="form-group">
-          <input type="hidden" class="form-control" id="role" name="role"  required="" value="Admin Kasir"></input>
+          <input type="hidden" class="form-control" id="id_siswa" name="id_siswa"  required="" value="{{$get_data_siswa->id}}"></input>
         </div>
 
+        
         
 
 
@@ -134,7 +130,7 @@ Kelola Kelas
    <form action="" id="updateInformasiform" method="post" enctype="multipart/form-data">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Anda yakin ingin memperbarui data kelas ini ?</h5>
+        <h5 class="modal-title">Anda yakin ingin memperbarui isi bimbingan ini ?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -144,8 +140,8 @@ Kelola Kelas
         {{ method_field('POST') }}
 
         <div class="form-group">
-          <label for="nama_kelas">Nama Kelas</label>
-          <input type="text" class="form-control" id="nama_kelas_update" name="nama_kelas"  required=""></input>
+          <label for="isi_bimbingan">Isi Bimbingan</label>
+          <textarea type="text" class="form-control" id="isi_bimbingan_update" name="isi_bimbingan" required=""></textarea>
         </div>
 
 
@@ -168,7 +164,7 @@ Kelola Kelas
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Hapus Data Kelas ?</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Hapus Data Bimbingan ?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -176,7 +172,7 @@ Kelola Kelas
 
           {{ csrf_field() }}
           {{ method_field('POST') }}
-          <p>Apakah anda yakin ingin menghapus data kelas ini ?</p> <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
+          <p>Apakah anda yakin ingin menghapus data bimbingan ini ?</p> <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
           <button type="submit" name="" class="btn btn-danger float-right mr-2" data-dismiss="modal" onclick="formSubmit()">Hapus</button>
 
         </form>
@@ -192,7 +188,7 @@ Kelola Kelas
 <script type="text/javascript">
   function deleteData(id) {
     var id = id;
-    var url = '{{route("kelas_delete", ":id") }}';
+    var url = '{{route("bimbingan_siswa_delete", ":id") }}';
     url = url.replace(':id', id);
     $("#deleteForm").attr('action', url);
   }
@@ -213,9 +209,9 @@ Kelola Kelas
       }
       var data = table.row($tr).data();
       console.log(data);
-      $('#nama_kelas_update').val(data[1]);
+      $('#isi_bimbingan_update').val(data[3]);
       
-      $('#updateInformasiform').attr('action','kelas_update/'+ data[3]);
+      $('#updateInformasiform').attr('action','bimbingan_siswa_update/'+ data[6]);
       $('#updateInformasi').modal('show');
     });
   });

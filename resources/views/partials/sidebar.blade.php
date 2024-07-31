@@ -48,6 +48,7 @@
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-bullhorn"></i>
               <span>Tata Tertib</span></a>
               <ul class="dropdown-menu">
+                
                 <li class="{{(request()->is('tata_tertib_perihal_masuk_sekolah')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('tata_tertib_perihal_masuk_sekolah') }}"><i class="fas fa-circle"></i></i><span>Masuk Sekolah</span></a></li>
 
                 <li class="{{(request()->is('tata_tertib_perihal_larangan_siswa')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('tata_tertib_perihal_larangan_siswa') }}"><i class="fas fa-circle"></i></i><span>Larangan Siswa</span></a></li>
@@ -59,6 +60,8 @@
               </ul>
             </li>
 
+             <li class="{{(request()->is('jadwal_bimbingan')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('jadwal_bimbingan') }}"><i class="fas fa-calendar-week"></i><span>Jadwal Bimbingan</span></a></li>
+
             <li class="{{(request()->is('lihat_feedback')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('lihat_feedback') }}"><i class="fas fa-comments"></i><span>Feedback Siswa</span></a></li>
         @endif()
 
@@ -66,7 +69,7 @@
               @if(Auth::user()->role == 'siswa') 
               <li class="{{(request()->is('siswa_dashboard')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('siswa_dashboard') }}"><i class="fas fa-home"></i><span>Beranda</span></a></li>
 
-
+              <li class="{{(request()->is('riwayat_bimbingan')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('riwayat_bimbingan') }}"><i class="far fa-clipboard"></i></i><span>Riwayat Bimbingan</span></a></li>
 
               @if((request()->is('siswa_tata_tertib_perihal_masuk_sekolah')))
               <li class="nav-item dropdown {{(request()->is('siswa_tata_tertib_perihal_masuk_sekolah')) ? 'active' : ''}}">
@@ -92,6 +95,8 @@
 
                   </ul>
                 </li>
+
+
 
               <li class="{{(request()->is('feedback')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('feedback') }}"><i class="fas fa-comment"></i><span>Feedback</span></a></li>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Jul 2024 pada 10.09
+-- Waktu pembuatan: 31 Jul 2024 pada 10.50
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `konseling_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `bimbingan_siswas`
+--
+
+CREATE TABLE `bimbingan_siswas` (
+  `id` bigint(20) NOT NULL,
+  `id_siswa` int(11) NOT NULL,
+  `isi_bimbingan` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `bimbingan_siswas`
+--
+
+INSERT INTO `bimbingan_siswas` (`id`, `id_siswa`, `isi_bimbingan`, `created_at`, `updated_at`) VALUES
+(1, 9, 'dasdasdasd', '2024-07-30 20:34:56', '2024-07-30 20:34:56'),
+(4, 14, 'bimbingnan konsleing', '2024-07-31 07:53:01', '2024-07-31 07:53:01'),
+(5, 12, 'bimbingnan curhat', '2024-07-31 08:17:26', '2024-07-31 08:17:26');
 
 -- --------------------------------------------------------
 
@@ -46,6 +69,7 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `feedback` (
   `id` bigint(20) NOT NULL,
   `isi_feedback` varchar(255) NOT NULL,
+  `deskripsi` text DEFAULT NULL,
   `id_user_guru` bigint(20) NOT NULL,
   `id_user_siswa` bigint(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -56,8 +80,9 @@ CREATE TABLE `feedback` (
 -- Dumping data untuk tabel `feedback`
 --
 
-INSERT INTO `feedback` (`id`, `isi_feedback`, `id_user_guru`, `id_user_siswa`, `created_at`, `updated_at`) VALUES
-(3, 'Sangat Baik', 6, 11, '2024-07-02 00:57:00', '2024-07-02 00:57:12');
+INSERT INTO `feedback` (`id`, `isi_feedback`, `deskripsi`, `id_user_guru`, `id_user_siswa`, `created_at`, `updated_at`) VALUES
+(4, 'Cukup Baik', NULL, 6, 16, '2024-07-03 01:19:00', '2024-07-03 01:19:00'),
+(8, 'Cukup Baik', 'gurunya ramah', 6, 11, '2024-07-14 19:53:32', '2024-07-14 19:53:32');
 
 -- --------------------------------------------------------
 
@@ -87,12 +112,37 @@ INSERT INTO `guru_konselings` (`id`, `nama`, `nip`, `status_kepegawaian`, `id_us
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `jadwal_bimbingans`
+--
+
+CREATE TABLE `jadwal_bimbingans` (
+  `id` bigint(20) NOT NULL,
+  `kelas` varchar(255) NOT NULL,
+  `dari_hari` varchar(255) DEFAULT NULL,
+  `sampai_hari` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `jadwal_bimbingans`
+--
+
+INSERT INTO `jadwal_bimbingans` (`id`, `kelas`, `dari_hari`, `sampai_hari`, `created_at`, `updated_at`) VALUES
+(1, 'VII', 'Senin', 'Selasa', '2024-07-26 05:15:06', '2024-07-31 08:48:54'),
+(2, 'VIII', 'Rabu', 'Kamis', '2024-07-26 05:15:25', '2024-07-26 05:15:25'),
+(3, 'IX', 'Jum\'at', 'Sabtu', '2024-07-26 05:15:33', '2024-07-26 07:43:33');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `kelas`
 --
 
 CREATE TABLE `kelas` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nama_kelas` varchar(255) NOT NULL,
+  `kelas` varchar(225) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -101,12 +151,13 @@ CREATE TABLE `kelas` (
 -- Dumping data untuk tabel `kelas`
 --
 
-INSERT INTO `kelas` (`id`, `nama_kelas`, `created_at`, `updated_at`) VALUES
-(2, 'VIIB', '2024-06-08 05:04:35', '2024-06-08 05:04:35'),
-(3, 'VIIA', '2024-06-08 05:04:40', '2024-06-08 05:04:40'),
-(4, 'VIIC', '2024-06-08 20:42:24', '2024-06-08 20:42:24'),
-(5, 'VIID', '2024-06-08 20:59:07', '2024-06-08 20:59:07'),
-(6, 'VIIE', '2024-06-28 00:27:14', '2024-06-28 00:27:14');
+INSERT INTO `kelas` (`id`, `nama_kelas`, `kelas`, `created_at`, `updated_at`) VALUES
+(2, 'VIIB', 'VII', '2024-06-08 05:04:35', '2024-06-08 05:04:35'),
+(3, 'VIIA', 'VII', '2024-06-08 05:04:40', '2024-06-08 05:04:40'),
+(4, 'VIIC', 'VII', '2024-06-08 20:42:24', '2024-06-08 20:42:24'),
+(5, 'VIID', 'VII', '2024-06-08 20:59:07', '2024-06-08 20:59:07'),
+(6, 'VIIE', 'VII', '2024-06-28 00:27:14', '2024-06-28 00:27:14'),
+(7, 'IXA', 'IX', '2024-07-26 01:37:46', '2024-07-26 01:37:46');
 
 -- --------------------------------------------------------
 
@@ -160,6 +211,13 @@ CREATE TABLE `pelanggarans` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `pelanggarans`
+--
+
+INSERT INTO `pelanggarans` (`id`, `id_siswa`, `id_point`, `created_at`, `updated_at`) VALUES
+(20, 14, 10, '2024-07-14 19:16:14', '2024-07-14 19:16:14');
 
 -- --------------------------------------------------------
 
@@ -229,7 +287,8 @@ CREATE TABLE `siswas` (
 
 INSERT INTO `siswas` (`id`, `nama`, `alamat`, `nis`, `id_kelas`, `id_user`, `created_at`, `updated_at`) VALUES
 (9, 'Dono Pradono', 'Banyuwangi', '111111', 6, 11, '2024-06-30 20:06:34', '2024-06-30 20:06:34'),
-(10, 'joko', 'Banyuwangi', '222222', 6, 12, '2024-06-30 20:06:44', '2024-06-30 20:06:44');
+(12, 'Anwar', 'tegalsari', '222222', 5, 14, '2024-07-03 01:16:29', '2024-07-03 01:16:29'),
+(14, 'ridwan', 'Pesanggaran', '333333', 2, 16, '2024-07-03 01:18:37', '2024-07-03 01:18:37');
 
 -- --------------------------------------------------------
 
@@ -279,13 +338,19 @@ INSERT INTO `users` (`id`, `username`, `email`, `email_verified_at`, `password`,
 (3, 'joko', 'joko@gmail.com', NULL, '$2y$10$z1po52zxuEilt4d7hzszp.yVgWYjHZPQl34vFcwmvfwRkSeaT5QKK', 'guru_konseling', NULL, '2024-06-08 03:33:18', '2024-06-08 03:33:18'),
 (4, 'suherman', 'suherman@gmail.com', NULL, '$2y$10$BmVTVCuOK2jF4yZtuqPd8.1EI1iudQl/hsI3wTOKv39rSSt38.y3.', 'guru_konseling', NULL, '2024-06-08 03:38:54', '2024-06-08 03:38:54'),
 (6, 'irul', 'andyfebri999@gmail.com', NULL, '$2y$10$DZCjF91eRyzqib5N3WDO8uayMkQkIagsfTFtdcUeJ.PrSb2mip9UC', 'guru_konseling', NULL, '2024-06-08 20:58:28', '2024-06-08 20:58:28'),
-(7, '222222', NULL, NULL, '$2y$10$gXLS5hMTMB5cwVf.IJFVye3PEPrPNoREr3YwuRaKs5lbSW1R6BaR.', 'siswa', NULL, '2024-06-13 20:00:23', '2024-06-13 20:11:04'),
 (11, '111111', NULL, NULL, '$2y$10$9KPYO6jPoLN2Y7NtbjF.Lepd.X8EhuGvTk40MSShGk4nz6zvu6sui', 'siswa', NULL, '2024-06-30 20:06:34', '2024-06-30 20:06:34'),
-(12, '222222', NULL, NULL, '$2y$10$c6OLa6ve3Sf0M0kYay8PiePLN9Dn6g22irj/jU.OTpnOGpRmTuxuu', 'siswa', NULL, '2024-06-30 20:06:44', '2024-06-30 20:06:44');
+(14, '222222', NULL, NULL, '$2y$10$mKGWHZsyhB68SL8HES1MBOYVubgXnrsgRKKAojNQ0QZ172SGY1Eh6', 'siswa', NULL, '2024-07-03 01:16:29', '2024-07-03 01:16:29'),
+(16, '333333', NULL, NULL, '$2y$10$LytL/KjJVzx9m9oQMN1n4eHXO0jPcqLWENmwOCx5R7wopiRgfj2KC', 'siswa', NULL, '2024-07-03 01:18:37', '2024-07-03 01:18:37');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `bimbingan_siswas`
+--
+ALTER TABLE `bimbingan_siswas`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `failed_jobs`
@@ -306,6 +371,12 @@ ALTER TABLE `feedback`
 ALTER TABLE `guru_konselings`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`);
+
+--
+-- Indeks untuk tabel `jadwal_bimbingans`
+--
+ALTER TABLE `jadwal_bimbingans`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `kelas`
@@ -373,6 +444,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `bimbingan_siswas`
+--
+ALTER TABLE `bimbingan_siswas`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -382,7 +459,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `guru_konselings`
@@ -391,10 +468,16 @@ ALTER TABLE `guru_konselings`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT untuk tabel `jadwal_bimbingans`
+--
+ALTER TABLE `jadwal_bimbingans`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
@@ -406,7 +489,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `pelanggarans`
 --
 ALTER TABLE `pelanggarans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -424,7 +507,7 @@ ALTER TABLE `points`
 -- AUTO_INCREMENT untuk tabel `siswas`
 --
 ALTER TABLE `siswas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `tata_tertibs`
@@ -436,7 +519,7 @@ ALTER TABLE `tata_tertibs`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

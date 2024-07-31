@@ -11,6 +11,8 @@ use App\Models\Point;
 use App\Models\Pelanggaran;
 use App\Models\TataTertib;
 use App\Models\Feedback;
+use App\Models\JadwalBimbingan;
+use App\Models\BimbinganSiswa;
 use File;
 use PDF;
 use DB;
@@ -18,6 +20,7 @@ use Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class GuruKonselingController extends Controller
 {
@@ -44,6 +47,7 @@ class GuruKonselingController extends Controller
 		$data_add = new Kelas();
 
 		$data_add->nama_kelas = $request->input('nama_kelas');
+		$data_add->kelas = $request->input('kelas');
 		
 		$data_add->save();
 
@@ -432,6 +436,128 @@ class GuruKonselingController extends Controller
 
 
 		$delete = TataTertib::findOrFail($id);
+		$delete->delete();
+
+		return redirect()->back()->with('success', 'Data Berhasil Dihapus');
+	}
+
+
+
+//JADWAL BIMBINGAN
+//==================================================================================================================
+	public function bimbingan_siswa($id)
+	{
+		//$bimbingan_siswa = BimbinganSiswa::where('id', $id)->orderBy('id','DESC')->get();
+		$bimbingan_siswa = DB::table('bimbingan_siswas')
+		->join('siswas', 'bimbingan_siswas.id_siswa', '=', 'siswas.id')
+		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+		->select('bimbingan_siswas.*','siswas.nama','kelas.nama_kelas',)
+		->where('bimbingan_siswas.id_siswa',$id)
+		->orderBy('bimbingan_siswas.id', 'DESC')
+		->get();
+
+
+		$get_data_siswa = Siswa::where('id',$id)->first();
+
+		return view('guru_konseling.bimbingan_siswa.index',compact('bimbingan_siswa','get_data_siswa'));
+	}
+
+	public function bimbingan_siswa_add (Request $request)
+	{
+
+
+		$data_add = new BimbinganSiswa();
+
+		$data_add->isi_bimbingan = $request->input('isi_bimbingan');
+		$data_add->id_siswa = $request->input('id_siswa');
+	
+		
+		$data_add->save();
+
+		return redirect()->back()->with('success', 'bimbingan_siswa Berhasil Ditambahkan');
+	}
+
+
+	public function bimbingan_siswa_update(Request $request, $id)
+	{
+
+		$data_update = BimbinganSiswa::where('id', $id)->first();
+
+		$input = [
+			'isi_bimbingan' => $request->isi_bimbingan,
+			
+			
+		];
+
+		$data_update->update($input);
+
+
+		return redirect()->back()->with('success', 'Data Berhasil Diupdate');
+	}
+
+
+	public function bimbingan_siswa_delete($id)
+	{
+
+
+		$delete = BimbinganSiswa::findOrFail($id);
+		$delete->delete();
+
+		return redirect()->back()->with('success', 'Data Berhasil Dihapus');
+	}
+
+
+
+//BIMBINGAN SISWA
+//==================================================================================================================
+	public function jadwal_bimbingan()
+	{
+		$jadwal_bimbingan = JadwalBimbingan::orderBy('id','ASC')->get();
+
+		return view('guru_konseling.jadwal_bimbingan',compact('jadwal_bimbingan'));
+	}
+
+	public function jadwal_bimbingan_add (Request $request)
+	{
+
+
+		$data_add = new JadwalBimbingan();
+
+		$data_add->kelas = $request->input('kelas');
+		$data_add->dari_hari = $request->input('dari_hari');
+		$data_add->sampai_hari = $request->input('sampai_hari');
+		
+		$data_add->save();
+
+		return redirect()->back()->with('success', 'jadwal_bimbingan Berhasil Ditambahkan');
+	}
+
+
+	public function jadwal_bimbingan_update(Request $request, $id)
+	{
+
+		$data_update = JadwalBimbingan::where('id', $id)->first();
+
+		$input = [
+			'kelas' => $request->kelas,
+			'dari_hari' => $request->dari_hari,
+			'sampai_hari' => $request->sampai_hari,
+
+			
+		];
+
+		$data_update->update($input);
+
+
+		return redirect()->back()->with('success', 'Data Berhasil Diupdate');
+	}
+
+
+	public function jadwal_bimbingan_delete($id)
+	{
+
+
+		$delete = JadwalBimbingan::findOrFail($id);
 		$delete->delete();
 
 		return redirect()->back()->with('success', 'Data Berhasil Dihapus');
