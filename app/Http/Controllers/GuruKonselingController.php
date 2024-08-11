@@ -133,6 +133,16 @@ class GuruKonselingController extends Controller
 
 		$data_add->save();
 
+		$update_jumlah_siswa = Kelas::where('id', $data_add->id_kelas)->first();
+
+		$input = [
+			'jumlah_siswa' => $update_jumlah_siswa->jumlah_siswa + 1,
+				
+		];
+
+		$update_jumlah_siswa->update($input);
+
+
 		return redirect()->back()->with('success', 'Siswa Berhasil Ditambahkan');
 	}
 
@@ -171,6 +181,15 @@ class GuruKonselingController extends Controller
 	public function siswa_delete($id)
 	{
 		$get_siswa = Siswa::where('id', $id)->first();
+
+		$update_jumlah_siswa = Kelas::where('id', $get_siswa->id_kelas)->first();
+
+		$input = [
+			'jumlah_siswa' => $update_jumlah_siswa->jumlah_siswa - 1,
+				
+		];
+
+		$update_jumlah_siswa->update($input);
 
 		$delete_user_siswa = User::where('id', $get_siswa->id_user)->first();
 		$delete_user_siswa->delete();
@@ -215,7 +234,14 @@ class GuruKonselingController extends Controller
 	public function lihat_pelanggaran($id)
 	{
 
-		$data_siswa = Siswa::where('id',$id)->get();
+		
+		$data_siswa = DB::table('siswas')
+		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+		->select('siswas.*','kelas.kelas')
+		->where('siswas.id',$id)
+		->get();
+		// return $data_siswa;
+
 		$data_point = point::get();
 
 		$total_point = DB::table('pelanggarans')
@@ -249,6 +275,7 @@ class GuruKonselingController extends Controller
 
 		$data_add->id_siswa = $request->input('id_siswa');
 		$data_add->id_point = $request->input('id_point');
+		$data_add->kelas = $request->input('kelas');
 		
 		$data_add->save();
 
@@ -470,7 +497,7 @@ class GuruKonselingController extends Controller
 
 		$data_add->isi_bimbingan = $request->input('isi_bimbingan');
 		$data_add->id_siswa = $request->input('id_siswa');
-	
+
 		
 		$data_add->save();
 
@@ -587,5 +614,143 @@ class GuruKonselingController extends Controller
 
 		$total_jumlah_feedback = Feedback::count();
 		return view('guru_konseling.lihat_feedback',compact('feedback','feedback_sangat_buruk','feedback_buruk','feedback_cukup_baik','feedback_baik','feedback_sangat_baik','total_jumlah_feedback'));
+	}
+
+
+	// REKAPITULASI PELANGGARAN
+	// =================================================================================================================
+
+	public function rekapitulasi_pelanggaran(Request $request)
+	{
+
+		$from = $request->from;
+		$to = $request->to;
+
+		if ($from == null && $to == null) {
+			$jml_rekap_kelas_7 = Pelanggaran::where('kelas','VII')->count();
+			$jml_rekap_kelas_8 = Pelanggaran::where('kelas','VIII')->count();
+			$jml_rekap_kelas_9 = Pelanggaran::where('kelas','IX')->count();
+
+			$detail_rekap_kelas_7 = DB::table('pelanggarans')
+			->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+			->join('points', 'pelanggarans.id_point', '=', 'points.id')
+			->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+			->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+			->where('kelas.kelas', 'VII')
+			->orderBy('pelanggarans.id', 'DESC')
+			->get();
+
+			$detail_rekap_kelas_8 = DB::table('pelanggarans')
+			->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+			->join('points', 'pelanggarans.id_point', '=', 'points.id')
+			->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+			->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+			->where('kelas.kelas', 'VIII')
+			->orderBy('pelanggarans.id', 'DESC')
+			->get();
+
+			$detail_rekap_kelas_9 = DB::table('pelanggarans')
+			->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+			->join('points', 'pelanggarans.id_point', '=', 'points.id')
+			->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+			->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+			->where('kelas.kelas', 'IX')
+			->orderBy('pelanggarans.id', 'DESC')
+			->get();
+		}else{
+			$jml_rekap_kelas_7 = Pelanggaran::where('kelas','VII')->whereBetween('updated_at', [$from, $to])->count();
+			$jml_rekap_kelas_8 = Pelanggaran::where('kelas','VIII')->whereBetween('updated_at', [$from, $to])->count();
+			$jml_rekap_kelas_9 = Pelanggaran::where('kelas','IX')->whereBetween('updated_at', [$from, $to])->count();
+
+			$detail_rekap_kelas_7 = DB::table('pelanggarans')
+			->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+			->join('points', 'pelanggarans.id_point', '=', 'points.id')
+			->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+			->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+			->where('kelas.kelas', 'VII')
+			->whereBetween('pelanggarans.updated_at', [$from, $to])
+			->orderBy('pelanggarans.id', 'DESC')
+			->get();
+
+			$detail_rekap_kelas_8 = DB::table('pelanggarans')
+			->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+			->join('points', 'pelanggarans.id_point', '=', 'points.id')
+			->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+			->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+			->where('kelas.kelas', 'VIII')
+			->whereBetween('pelanggarans.updated_at', [$from, $to])
+			->orderBy('pelanggarans.id', 'DESC')
+			->get();
+
+			$detail_rekap_kelas_9 = DB::table('pelanggarans')
+			->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+			->join('points', 'pelanggarans.id_point', '=', 'points.id')
+			->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+			->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+			->where('kelas.kelas', 'IX')
+			->whereBetween('pelanggarans.updated_at', [$from, $to])
+			->orderBy('pelanggarans.id', 'DESC')
+			->get();
+		}
+		
+
+		// 	return $rekap_kelas_7;
+
+
+		return view('guru_konseling.rekapitulasi.index',compact('from','to','jml_rekap_kelas_7','jml_rekap_kelas_8','jml_rekap_kelas_9','detail_rekap_kelas_7','detail_rekap_kelas_8','detail_rekap_kelas_9'));
+	}
+
+
+	public function detail_rekap_kelas_7()
+	{
+
+		$detail_rekap_kelas_7 = DB::table('pelanggarans')
+		->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+		->join('points', 'pelanggarans.id_point', '=', 'points.id')
+		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+		->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+		->where('kelas.kelas', 'VII')
+		->orderBy('pelanggarans.id', 'DESC')
+		->get();
+
+	// return $detail_rekap_kelas_7;	
+
+		return view('guru_konseling.rekapitulasi.detail_rekap_kelas_7',compact('detail_rekap_kelas_7'));
+	}
+
+
+	public function detail_rekap_kelas_8()
+	{
+
+		$detail_rekap_kelas_8 = DB::table('pelanggarans')
+		->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+		->join('points', 'pelanggarans.id_point', '=', 'points.id')
+		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+		->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+		->where('kelas.kelas', 'VIII')
+		->orderBy('pelanggarans.id', 'DESC')
+		->get();
+
+	// return $detail_rekap_kelas_8;	
+
+		return view('guru_konseling.rekapitulasi.detail_rekap_kelas_8',compact('detail_rekap_kelas_8'));
+	}
+
+
+	public function detail_rekap_kelas_9()
+	{
+
+		$detail_rekap_kelas_9 = DB::table('pelanggarans')
+		->join('siswas', 'pelanggarans.id_siswa', '=', 'siswas.id')
+		->join('points', 'pelanggarans.id_point', '=', 'points.id')
+		->join('kelas', 'siswas.id_kelas', '=', 'kelas.id')
+		->select('pelanggarans.*','points.nama_pelanggaran','points.kategori_pelanggaran','points.point_pelanggaran','siswas.nama','kelas.nama_kelas')
+		->where('kelas.kelas', 'IX')
+		->orderBy('pelanggarans.id', 'DESC')
+		->get();
+
+	// return $detail_rekap_kelas_7;	
+
+		return view('guru_konseling.rekapitulasi.detail_rekap_kelas_9',compact('detail_rekap_kelas_9'));
 	}
 }

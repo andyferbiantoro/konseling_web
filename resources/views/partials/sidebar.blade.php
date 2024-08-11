@@ -63,6 +63,9 @@
              <li class="{{(request()->is('jadwal_bimbingan')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('jadwal_bimbingan') }}"><i class="fas fa-calendar-week"></i><span>Jadwal Bimbingan</span></a></li>
 
             <li class="{{(request()->is('lihat_feedback')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('lihat_feedback') }}"><i class="fas fa-comments"></i><span>Feedback Siswa</span></a></li>
+
+            <li class="{{(request()->is('rekapitulasi_pelanggaran')) ? 'active' : ''}}"><a class="nav-link" href="{{ route('rekapitulasi_pelanggaran') }}"><i class="fas fa-clipboard-list"></i><span>Rekapitulasi Pelanggaran</span></a></li>
+
         @endif()
 
 

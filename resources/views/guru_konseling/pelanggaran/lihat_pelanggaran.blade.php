@@ -110,16 +110,12 @@ Lihat Pelanggaran Siswa
          <div class="form-group">
           <input type="hidden" class="form-control" id="id_siswa_update" name="id_siswa"  required="" value="{{$siswa->id}}"></input>
         </div>
-        @endforeach
-        
 
 
-
-
-        <div class="form-group">
-          <input type="hidden" class="form-control" id="role" name="role"  required="" value="Admin Kasir"></input>
+         <div class="form-group">
+          <input type="hidden" class="form-control" id="kelas" name="kelas"  required="" value="{{$siswa->kelas}}"></input>
         </div>
-
+        @endforeach
         
 
 

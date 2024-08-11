@@ -36,6 +36,7 @@ Kelola Kelas
               <th>No</th>
               <th>Nama Kelas</th>
               <th>Kelas</th>
+              <th>Jumlah Siswa</th>
               <th>Opsi</th>
               <th style="display: none;">hidden</th>
             </tr>
@@ -47,6 +48,7 @@ Kelola Kelas
               <td>{{$no++}}</td>
               <td>{{$data->nama_kelas}}</td>
               <td>{{$data->kelas}}</td>
+              <td>{{$data->jumlah_siswa}} orang siswa</td>
               <td>
                 <button class="btn btn-warning btn-sm icon-file menu-icon edit" title="Edit">Edit</button>
 

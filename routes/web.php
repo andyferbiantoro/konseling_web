@@ -102,6 +102,13 @@ Route::middleware(['auth', 'guru_konseling'])->group(function () {
 
 	//Feedback Siswa
 	Route::get('/lihat_feedback', [GuruKonselingController::class, 'lihat_feedback'])->name('lihat_feedback');
+
+
+	//Rekapitulasi Pelanggaran Siswa
+	Route::get('/rekapitulasi_pelanggaran', [GuruKonselingController::class, 'rekapitulasi_pelanggaran'])->name('rekapitulasi_pelanggaran');
+	Route::get('/detail_rekap_kelas_7', [GuruKonselingController::class, 'detail_rekap_kelas_7'])->name('detail_rekap_kelas_7');
+	Route::get('/detail_rekap_kelas_8', [GuruKonselingController::class, 'detail_rekap_kelas_8'])->name('detail_rekap_kelas_8');
+	Route::get('/detail_rekap_kelas_9', [GuruKonselingController::class, 'detail_rekap_kelas_9'])->name('detail_rekap_kelas_9');
 	
 
 	Route::get('/guru_konseling_logout', [AuthController::class, 'guru_konseling_logout'])->name('guru_konseling_logout');

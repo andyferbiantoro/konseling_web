@@ -81,6 +81,14 @@
 
     </script>
 
+
+     <script>
+        $(document).ready(function() {
+            $('#dataTable3').DataTable();
+        });
+
+    </script>
+
    
 
     <script>

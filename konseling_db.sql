@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 31 Jul 2024 pada 10.50
+-- Waktu pembuatan: 09 Agu 2024 pada 14.25
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -40,7 +40,7 @@ CREATE TABLE `bimbingan_siswas` (
 --
 
 INSERT INTO `bimbingan_siswas` (`id`, `id_siswa`, `isi_bimbingan`, `created_at`, `updated_at`) VALUES
-(1, 9, 'dasdasdasd', '2024-07-30 20:34:56', '2024-07-30 20:34:56'),
+(1, 9, 'bimbingna konseling', '2024-07-30 20:34:56', '2024-08-01 04:11:23'),
 (4, 14, 'bimbingnan konsleing', '2024-07-31 07:53:01', '2024-07-31 07:53:01'),
 (5, 12, 'bimbingnan curhat', '2024-07-31 08:17:26', '2024-07-31 08:17:26');
 
@@ -143,6 +143,7 @@ CREATE TABLE `kelas` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nama_kelas` varchar(255) NOT NULL,
   `kelas` varchar(225) NOT NULL,
+  `jumlah_siswa` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -151,13 +152,13 @@ CREATE TABLE `kelas` (
 -- Dumping data untuk tabel `kelas`
 --
 
-INSERT INTO `kelas` (`id`, `nama_kelas`, `kelas`, `created_at`, `updated_at`) VALUES
-(2, 'VIIB', 'VII', '2024-06-08 05:04:35', '2024-06-08 05:04:35'),
-(3, 'VIIA', 'VII', '2024-06-08 05:04:40', '2024-06-08 05:04:40'),
-(4, 'VIIC', 'VII', '2024-06-08 20:42:24', '2024-06-08 20:42:24'),
-(5, 'VIID', 'VII', '2024-06-08 20:59:07', '2024-06-08 20:59:07'),
-(6, 'VIIE', 'VII', '2024-06-28 00:27:14', '2024-06-28 00:27:14'),
-(7, 'IXA', 'IX', '2024-07-26 01:37:46', '2024-07-26 01:37:46');
+INSERT INTO `kelas` (`id`, `nama_kelas`, `kelas`, `jumlah_siswa`, `created_at`, `updated_at`) VALUES
+(2, 'VIIB', 'VII', 1, '2024-06-08 05:04:35', '2024-06-08 05:04:35'),
+(3, 'VIIA', 'VII', 0, '2024-06-08 05:04:40', '2024-06-08 05:04:40'),
+(4, 'VIIC', 'VII', 0, '2024-06-08 20:42:24', '2024-06-08 20:42:24'),
+(5, 'VIID', 'VII', 1, '2024-06-08 20:59:07', '2024-06-08 20:59:07'),
+(6, 'VIIE', 'VII', 1, '2024-06-28 00:27:14', '2024-06-28 00:27:14'),
+(7, 'IXA', 'IX', 2, '2024-07-26 01:37:46', '2024-08-09 12:05:54');
 
 -- --------------------------------------------------------
 
@@ -208,6 +209,7 @@ CREATE TABLE `pelanggarans` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `id_siswa` bigint(20) UNSIGNED NOT NULL,
   `id_point` bigint(20) UNSIGNED NOT NULL,
+  `kelas` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -216,8 +218,11 @@ CREATE TABLE `pelanggarans` (
 -- Dumping data untuk tabel `pelanggarans`
 --
 
-INSERT INTO `pelanggarans` (`id`, `id_siswa`, `id_point`, `created_at`, `updated_at`) VALUES
-(20, 14, 10, '2024-07-14 19:16:14', '2024-07-14 19:16:14');
+INSERT INTO `pelanggarans` (`id`, `id_siswa`, `id_point`, `kelas`, `created_at`, `updated_at`) VALUES
+(25, 15, 10, 'IX', '2024-08-08 11:48:29', '2024-08-08 11:48:29'),
+(26, 14, 11, 'VII', '2024-08-08 11:50:23', '2024-08-08 11:50:23'),
+(27, 12, 12, 'VII', '2024-08-08 11:50:36', '2024-08-08 11:50:36'),
+(28, 9, 14, 'VII', '2024-08-08 11:50:48', '2024-08-08 11:50:48');
 
 -- --------------------------------------------------------
 
@@ -288,7 +293,9 @@ CREATE TABLE `siswas` (
 INSERT INTO `siswas` (`id`, `nama`, `alamat`, `nis`, `id_kelas`, `id_user`, `created_at`, `updated_at`) VALUES
 (9, 'Dono Pradono', 'Banyuwangi', '111111', 6, 11, '2024-06-30 20:06:34', '2024-06-30 20:06:34'),
 (12, 'Anwar', 'tegalsari', '222222', 5, 14, '2024-07-03 01:16:29', '2024-07-03 01:16:29'),
-(14, 'ridwan', 'Pesanggaran', '333333', 2, 16, '2024-07-03 01:18:37', '2024-07-03 01:18:37');
+(14, 'ridwan', 'Pesanggaran', '333333', 2, 16, '2024-07-03 01:18:37', '2024-07-03 01:18:37'),
+(15, 'anam', 'Banyuwangi', '123123', 7, 17, '2024-08-08 11:32:35', '2024-08-08 11:32:35'),
+(18, 'jeremi', 'Banyuwangi', '232323', 7, 20, '2024-08-09 12:05:54', '2024-08-09 12:05:54');
 
 -- --------------------------------------------------------
 
@@ -340,7 +347,9 @@ INSERT INTO `users` (`id`, `username`, `email`, `email_verified_at`, `password`,
 (6, 'irul', 'andyfebri999@gmail.com', NULL, '$2y$10$DZCjF91eRyzqib5N3WDO8uayMkQkIagsfTFtdcUeJ.PrSb2mip9UC', 'guru_konseling', NULL, '2024-06-08 20:58:28', '2024-06-08 20:58:28'),
 (11, '111111', NULL, NULL, '$2y$10$9KPYO6jPoLN2Y7NtbjF.Lepd.X8EhuGvTk40MSShGk4nz6zvu6sui', 'siswa', NULL, '2024-06-30 20:06:34', '2024-06-30 20:06:34'),
 (14, '222222', NULL, NULL, '$2y$10$mKGWHZsyhB68SL8HES1MBOYVubgXnrsgRKKAojNQ0QZ172SGY1Eh6', 'siswa', NULL, '2024-07-03 01:16:29', '2024-07-03 01:16:29'),
-(16, '333333', NULL, NULL, '$2y$10$LytL/KjJVzx9m9oQMN1n4eHXO0jPcqLWENmwOCx5R7wopiRgfj2KC', 'siswa', NULL, '2024-07-03 01:18:37', '2024-07-03 01:18:37');
+(16, '333333', NULL, NULL, '$2y$10$LytL/KjJVzx9m9oQMN1n4eHXO0jPcqLWENmwOCx5R7wopiRgfj2KC', 'siswa', NULL, '2024-07-03 01:18:37', '2024-07-03 01:18:37'),
+(17, '123123', NULL, NULL, '$2y$10$dVJvHqzzLYbf1KJVXLOx...jtlY.aZ5TUyzNALu.Y14SlVhzw843C', 'siswa', NULL, '2024-08-08 11:32:35', '2024-08-08 11:32:35'),
+(20, '232323', NULL, NULL, '$2y$10$S7n04LgujGUbAuG1n/lyUenhJs14mcvmQ7npDswDs5xiJBNOV7nVC', 'siswa', NULL, '2024-08-09 12:05:54', '2024-08-09 12:05:54');
 
 --
 -- Indexes for dumped tables
@@ -489,7 +498,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT untuk tabel `pelanggarans`
 --
 ALTER TABLE `pelanggarans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -507,7 +516,7 @@ ALTER TABLE `points`
 -- AUTO_INCREMENT untuk tabel `siswas`
 --
 ALTER TABLE `siswas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `tata_tertibs`
@@ -519,7 +528,7 @@ ALTER TABLE `tata_tertibs`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
